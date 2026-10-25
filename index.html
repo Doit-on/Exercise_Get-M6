@@ -1464,8 +1464,89 @@
       }
     }
 
+    // -----------------------------------------------------------
+    // Trigger Check & Summarize Unit Popup Modal
+    // -----------------------------------------------------------
+    function triggerCheckAndSummarizeUnit() {
+      const unit = M6_UNITS_DATA[activeUnitId];
+      if (!unit) return;
+
+      let totalScore = 0;
+      let totalQuestions = 0;
+      let totalAttempted = 0;
+      const partBreakdowns = [];
+
+      unit.sections.forEach((sec, sIdx) => {
+        const secKey = `${activeUnitId}_${sIdx}`;
+        let secScore = 0;
+        let secAttempted = 0;
+
+        sec.questions.forEach(q => {
+          totalQuestions++;
+          if (userAnswers[q.id] && String(userAnswers[q.id]).trim() !== '') {
+            secAttempted++;
+            totalAttempted++;
+            const userVal = String(userAnswers[q.id]).trim().toLowerCase();
+            if (sec.type === 'multiple_choice') {
+              if (userAnswers[q.id].trim() === q.answer.trim()) secScore++;
+            } else if (sec.type === 'fill_in') {
+              if (q.acceptableAnswers.some(a => a.trim().toLowerCase() === userVal)) secScore++;
+            }
+          }
+        });
+
+        // Mark this section as submitted if student attempted questions
+        if (secAttempted > 0) {
+          submittedSections[secKey] = true;
+        }
+
+        totalScore += secScore;
+        partBreakdowns.push({
+          title: sec.title,
+          score: secScore,
+          total: sec.questions.length,
+          attempted: secAttempted,
+          submitted: !!submittedSections[secKey]
+        });
+      });
+
+      if (totalAttempted === 0) {
+        alert("⚠️ คุณยังไม่ได้ทำข้อสอบในบทเรียนนี้เลยแม้แต่ข้อเดียว กรุณาลองทำข้อสอบก่อนกดตรวจสอบและสรุปคะแนนครับ");
+        return;
+      }
+
+      saveProgressToLocalStorage();
+      renderCurrentSection();
+
+      const pct = totalQuestions > 0 ? Math.round((totalScore / totalQuestions) * 100) : 0;
+      const emailKey = currentStudent && currentStudent.email ? currentStudent.email.trim().toLowerCase() : 'guest';
+
+      const progress = JSON.parse(localStorage.getItem('twp_m6_progress_' + emailKey) || '{}');
+      progress[activeUnitId] = {
+        done: true,
+        score: totalScore,
+        total: totalQuestions,
+        pct: pct
+      };
+
+      localStorage.setItem('twp_m6_progress_' + emailKey, JSON.stringify(progress));
+      updateStudentHeaderUI();
+      renderCurriculumGrid();
+      renderScoresTable();
+      updateCertificateStatus();
+      drawCertificateCanvas();
+
+      // Sync with Google Sheets Cloud (TWP_GetInvolved_M6_Database)
+      syncScoreToGoogleSheets(activeUnitId, totalScore, totalQuestions, pct);
+
+      // Display Unit Completion & Score Summary Modal
+      showUnitSummaryModal(unit, totalScore, totalQuestions, pct, partBreakdowns);
+    }
+
     function checkAndFinalizeUnit() {
       const unit = M6_UNITS_DATA[activeUnitId];
+      if (!unit) return false;
+
       let allDone = true;
       let totalScore = 0;
       let totalQuestions = 0;
@@ -1556,6 +1637,16 @@
         studentInfoEl.textContent = `${sName} • ห้อง ${sRoom} • ${sSchool}`;
       }
 
+      // Reset student note input & button state
+      const noteInput = document.getElementById('summary-student-note');
+      if (noteInput) noteInput.value = '';
+      const sendNoteBtn = document.getElementById('btn-send-student-note');
+      if (sendNoteBtn) {
+        sendNoteBtn.disabled = false;
+        sendNoteBtn.innerHTML = '<i class="ph-bold ph-paper-plane-tilt text-sm"></i><span>ส่งข้อความ & บันทึกคำขอคำแนะนำถึงคุณครู</span>';
+        sendNoteBtn.className = 'tactile-btn w-full py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold shadow-sm flex items-center justify-center space-x-2 transition';
+      }
+
       // Parts breakdown
       const breakdownContainer = document.getElementById('summary-parts-breakdown');
       if (breakdownContainer) {
@@ -1565,7 +1656,7 @@
           row.className = 'flex items-center justify-between p-3 rounded-xl bg-gray-50/80 hairline-border text-xs';
           row.innerHTML = `
             <span class="font-medium text-apple-textPrimary truncate max-w-[220px] sm:max-w-xs">${p.title}</span>
-            <span class="font-bold text-apple-accent">${p.score} / ${p.total} คะแนน</span>
+            <span class="font-bold text-apple-accent">${p.score} / ${p.total} คะแนน ${p.submitted ? '' : '(ยังไม่ตรวจ)'}</span>
           `;
           breakdownContainer.appendChild(row);
         });
@@ -1594,6 +1685,69 @@
     function closeUnitSummaryModal() {
       const modal = document.getElementById('unitSummaryModal');
       if (modal) modal.classList.add('hidden');
+    }
+
+    // -----------------------------------------------------------
+    // Send Student Note to Teacher and Update Cloud Record
+    // -----------------------------------------------------------
+    function sendStudentNoteToTeacher() {
+      const noteEl = document.getElementById('summary-student-note');
+      const note = (noteEl ? noteEl.value : '').trim();
+      if (!note) {
+        alert("กรุณาพิมพ์ข้อความหรือคำถามที่ต้องการขอคำแนะนำจากคุณครูก่อนกดส่งครับ");
+        return;
+      }
+
+      const btn = document.getElementById('btn-send-student-note');
+      const syncBadge = document.getElementById('summary-cloud-status');
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = '<i class="ph-bold ph-circle-notch animate-spin text-sm"></i><span>กำลังส่งข้อความถึงคุณครู...</span>';
+      }
+
+      const emailKey = currentStudent && currentStudent.email ? currentStudent.email.trim().toLowerCase() : 'guest';
+      const progress = JSON.parse(localStorage.getItem('twp_m6_progress_' + emailKey) || '{}');
+      const unit = M6_UNITS_DATA[activeUnitId];
+      const totalQ = unit.sections.reduce((a, s) => a + s.questions.length, 0);
+      const uProg = progress[activeUnitId] || { score: 0, total: totalQ, pct: 0 };
+
+      const payload = {
+        action: "submitScore",
+        studentId: currentStudent && currentStudent.id ? currentStudent.id : "GUEST",
+        name: currentStudent && currentStudent.name ? currentStudent.name : "นักเรียน ม.6",
+        email: currentStudent && currentStudent.email ? currentStudent.email : "guest@student.twp",
+        school: currentStudent && currentStudent.school ? currentStudent.school : "-",
+        room: currentStudent && currentStudent.room ? currentStudent.room : "ม.6",
+        unit: activeUnitId,
+        score: uProg.score,
+        total: uProg.total,
+        pct: uProg.pct,
+        studentNote: note,
+        timestamp: new Date().toISOString()
+      };
+
+      fetch(gasUrl, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify(payload)
+      }).then(() => {
+        if (syncBadge) {
+          syncBadge.innerHTML = '<i class="ph-bold ph-check-circle text-green-600"></i><span class="text-green-700 font-semibold">ส่งข้อความถึงคุณครูเรียบร้อยแล้ว (บันทึกลงชีต Scores_Log)</span>';
+        }
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = '<i class="ph-bold ph-check text-sm"></i><span>ส่งข้อความถึงคุณครูสำเร็จแล้ว ✓</span>';
+          btn.className = 'tactile-btn w-full py-2.5 rounded-xl bg-green-600 hover:bg-green-700 text-white text-xs font-bold shadow-sm flex items-center justify-center space-x-2 transition';
+        }
+        alert("🎉 ส่งข้อความถึงคุณครูผู้สอนและบันทึกข้อมูลไปยัง Google Sheet เรียบร้อยแล้วครับ");
+      }).catch(err => {
+        console.warn("GAS send note error:", err);
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = '<i class="ph-bold ph-paper-plane-tilt text-sm"></i><span>ลองส่งอีกครั้ง</span>';
+        }
+      });
     }
 
     function saveProgressToLocalStorage() {
