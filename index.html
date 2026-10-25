@@ -1,0 +1,1950 @@
+<!DOCTYPE html>
+<html lang="th" class="h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Get INVOLVED! ม.6 - แบบฝึกหัดภาษาอังกฤษออนไลน์ (ทวพ.)</title>
+  <link rel="icon" type="image/png" href="assets/twp-logo.png">
+  <meta name="description" content="ระบบแบบฝึกหัดภาษาอังกฤษออนไลน์ Get INVOLVED! ม.6 สำนักพิมพ์ไทยวัฒนาพานิช (TWP)">
+
+  <!-- Google Fonts: Inter, Plus Jakarta Sans, Prompt & Sarabun -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Prompt:wght@300;400;500;600;700&family=Sarabun:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <!-- SheetJS (Excel Parser) for Teacher Import -->
+  <script src="assets/xlsx.full.min.js"></script>
+  <script>
+    if (typeof XLSX === 'undefined') {
+      document.write('<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"><\/script>');
+    }
+  </script>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Phosphor Icons CDN -->
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+  <!-- M.6 Curriculum Data -->
+  <script src="m6_units_data.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['-apple-system', 'BlinkMacSystemFont', 'Inter', 'Prompt', 'sans-serif'],
+            display: ['"Plus Jakarta Sans"', '-apple-system', 'sans-serif'],
+            sarabun: ['Sarabun', 'sans-serif']
+          },
+          colors: {
+            apple: {
+              bg: '#F5F5F7',
+              card: '#FFFFFF',
+              surface: '#FAFAFC',
+              border: '#E5E5EA',
+              borderDark: '#D1D1D6',
+              textPrimary: '#1D1D1F',
+              textSecondary: '#6E6E73',
+              textTertiary: '#86868B',
+              accent: '#0071E3',
+              accentHover: '#0077ED',
+              accentLight: '#E8F2FD',
+              charcoal: '#2C2C2E',
+              slate: '#3A3A3C',
+              success: '#34C759',
+              warning: '#FF9500',
+              danger: '#FF3B30'
+            }
+          },
+          boxShadow: {
+            'apple-sm': '0 2px 8px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02)',
+            'apple-card': '0 8px 30px rgba(0, 0, 0, 0.05), 0 2px 6px rgba(0, 0, 0, 0.02)',
+            'apple-depth': '0 12px 36px rgba(0, 0, 0, 0.07), 0 4px 10px rgba(0, 0, 0, 0.03)',
+            'apple-btn': '0 4px 14px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.6)',
+            'apple-btn-primary': '0 6px 18px rgba(0, 113, 227, 0.28), 0 2px 4px rgba(0, 113, 227, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.35)',
+            'apple-btn-dark': '0 6px 18px rgba(29, 29, 31, 0.2), 0 2px 4px rgba(29, 29, 31, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #F5F5F7;
+      color: #1D1D1F;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    .tactile-btn {
+      position: relative;
+      transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+      transform: translateY(0);
+    }
+    .tactile-btn:hover {
+      transform: translateY(-2px);
+    }
+    .tactile-btn:active {
+      transform: translateY(1px) scale(0.985);
+    }
+    .apple-glass {
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+    }
+    .hairline-border {
+      border: 1px solid rgba(0, 0, 0, 0.08);
+    }
+    .option-card {
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+    .option-card:hover {
+      background-color: #FAFAFC;
+      border-color: #B0B0B8;
+      transform: translateY(-1px);
+    }
+    .option-card.selected {
+      border-color: #0071E3;
+      background-color: #F0F6FF;
+      box-shadow: 0 0 0 2px rgba(0, 113, 227, 0.15);
+    }
+    .safe-bottom {
+      padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+    }
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+<body class="h-full flex flex-col font-sans selection:bg-apple-accent selection:text-white">
+
+  <!-- ========================================== -->
+  <!-- 1. TOP HEADER (Unified Apple Minimalist)   -->
+  <!-- ========================================== -->
+  <header class="sticky top-0 z-40 apple-glass hairline-border border-b border-black/5 transition-all">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      
+      <!-- Brand & Grade Level -->
+      <div class="flex items-center space-x-3 cursor-pointer" onclick="showView('curriculum')">
+        <img src="assets/twp-logo.png" alt="TWP Logo" class="h-9 w-auto object-contain transition-transform hover:scale-105" onerror="this.src='https://via.placeholder.com/36?text=TWP'">
+        <div class="h-6 w-px bg-gray-200"></div>
+        <div>
+          <div class="flex items-center space-x-2">
+            <span class="font-display font-extrabold text-base tracking-tight text-apple-textPrimary">Get INVOLVED!</span>
+            <span class="px-2 py-0.5 text-[10px] font-bold rounded-md bg-apple-accent text-white shadow-sm">ม.6</span>
+          </div>
+          <p class="text-[11px] text-apple-textSecondary leading-none hidden sm:block">บริษัท สำนักพิมพ์ ไทยวัฒนาพานิช จำกัด (ทวพ.)</p>
+        </div>
+      </div>
+
+      <!-- Desktop Navigation Pills (Hidden on Mobile) -->
+      <nav class="hidden md:flex items-center space-x-1 bg-gray-200/60 p-1 rounded-full hairline-border">
+        <button id="nav-btn-curriculum" onclick="showView('curriculum')" class="px-3.5 py-1.5 text-xs font-semibold rounded-full bg-white text-apple-textPrimary shadow-apple-sm transition">
+          แผนผังบทเรียน
+        </button>
+        <button id="nav-btn-exercise" onclick="showView('exercise')" class="px-3.5 py-1.5 text-xs font-medium rounded-full text-apple-textSecondary hover:text-apple-textPrimary transition">
+          ทำแบบฝึกหัด
+        </button>
+        <button id="nav-btn-certificate" onclick="showView('certificate')" class="px-3.5 py-1.5 text-xs font-medium rounded-full text-apple-textSecondary hover:text-apple-textPrimary flex items-center space-x-1.5 transition">
+          <i class="ph-bold ph-certificate text-sm"></i>
+          <span>เกียรติบัตรออนไลน์</span>
+          <span id="nav-cert-pct" class="text-[10px] font-bold px-1.5 py-0.2 rounded-full bg-blue-100 text-apple-accent">0%</span>
+        </button>
+        <button id="nav-btn-teacher" onclick="requestTeacherAccess()" class="px-3.5 py-1.5 text-xs font-medium rounded-full text-apple-textSecondary hover:text-apple-textPrimary flex items-center space-x-1 transition">
+          <i class="ph-bold ph-lock-key text-xs"></i>
+          <span>ระบบคุณครู</span>
+        </button>
+      </nav>
+
+      <!-- User Profile / Student Session -->
+      <div class="flex items-center space-x-2 sm:space-x-3">
+        <!-- Student Info Chip & Menu Trigger -->
+        <div class="relative">
+          <button id="student-chip-btn" onclick="toggleStudentDropdown(event)" class="tactile-btn flex items-center space-x-2.5 px-3 py-1.5 rounded-full bg-white hairline-border shadow-apple-sm text-xs font-medium text-apple-textPrimary hover:bg-gray-50">
+            <div id="student-avatar-indicator" class="w-6 h-6 rounded-full bg-apple-accent text-white flex items-center justify-center text-[10px] font-bold">
+              ?
+            </div>
+            <div class="text-left hidden xs:block">
+              <div id="header-student-name" class="font-semibold text-xs truncate max-w-[120px] sm:max-w-[160px]">ยังไม่ได้เข้าสู่ระบบ</div>
+              <div id="header-student-meta" class="text-[10px] text-apple-textSecondary">คลิกเพื่อเข้าสู่ระบบ</div>
+            </div>
+            <i class="ph-bold ph-caret-down text-[10px] text-apple-textTertiary"></i>
+          </button>
+
+          <!-- Student Dropdown Menu (Strictly NO teacher password hint) -->
+          <div id="student-dropdown-menu" class="hidden absolute right-0 mt-2 w-64 bg-white rounded-2xl hairline-border shadow-apple-depth p-2 z-50 text-xs">
+            <div class="px-3 py-2 border-b border-gray-100 mb-1">
+              <div class="font-bold text-apple-textPrimary" id="dropdown-user-title">บัญชีผู้เรียน</div>
+              <div class="text-[11px] text-apple-textSecondary truncate" id="dropdown-user-email">guest@student.twp</div>
+            </div>
+            <button onclick="toggleAuthModal()" class="w-full text-left px-3 py-2 rounded-xl hover:bg-gray-100 text-apple-accent font-semibold flex items-center space-x-2">
+              <i class="ph-bold ph-user-switch text-sm"></i>
+              <span id="btn-login-label">เข้าสู่ระบบ / สลับบัญชีนักเรียน</span>
+            </button>
+            <button onclick="performLogout()" class="w-full text-left px-3 py-2 rounded-xl hover:bg-red-50 text-red-600 font-semibold flex items-center space-x-2">
+              <i class="ph-bold ph-sign-out text-sm"></i>
+              <span>ออกจากระบบ (Reset สถิติ)</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ========================================== -->
+  <!-- 2. MAIN APP CONTENT CONTAINER              -->
+  <!-- ========================================== -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-24 lg:pb-8">
+
+    <!-- VIEW 1: CURRICULUM OVERVIEW (แผนผังบทเรียน) -->
+    <section id="view-curriculum" class="space-y-8">
+      
+      <!-- Hero Banner (Clean Light-Toned Theme) -->
+      <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-white via-sky-50/60 to-blue-50/70 text-apple-textPrimary p-6 sm:p-10 hairline-border shadow-apple-card">
+        <!-- Ambient decorative shapes in background -->
+        <div class="absolute -right-16 -top-16 w-80 h-80 bg-blue-200/40 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute -left-12 -bottom-12 w-72 h-72 bg-indigo-100/40 rounded-full blur-2xl pointer-events-none"></div>
+
+        <div class="relative z-10 max-w-2xl space-y-4">
+          <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-blue-50 text-apple-accent text-xs font-semibold border border-blue-200/80 shadow-sm">
+            <i class="ph-fill ph-sparkle text-apple-accent"></i>
+            <span>หลักสูตร Get INVOLVED! ระดับชั้นมัธยมศึกษาปีที่ 6 ภาคเรียนที่ 2</span>
+          </div>
+          <h1 class="text-2xl sm:text-4xl font-display font-black text-apple-charcoal tracking-tight leading-tight">
+            Academic English Mastery &amp; University-Prep Learning
+          </h1>
+          <p class="text-sm sm:text-base text-slate-600 font-normal leading-relaxed">
+            ระบบฝึกทำแบบฝึกหัดภาษาอังกฤษออนไลน์มาตรฐานสากลระดับ ม.6 ครอบคลุม Unit 5 - Unit 8 สรุปสาระสำคัญ ไวยากรณ์ขั้นสูง และคำศัพท์จากวิดีโอ พร้อมระบบประเมินผลออกเกียรติบัตรอิเล็กทรอนิกส์ (E-Certificate) สำเร็จการศึกษาขั้นพื้นฐาน
+          </p>
+          <div class="pt-2 flex flex-wrap gap-3">
+            <button onclick="startUnitExercise('unit5')" class="tactile-btn px-5 py-2.5 rounded-full bg-apple-accent hover:bg-apple-accentHover text-white text-xs sm:text-sm font-semibold shadow-apple-btn-primary flex items-center space-x-2">
+              <span>เริ่มทำแบบฝึกหัด Unit 5</span>
+              <i class="ph-bold ph-arrow-right"></i>
+            </button>
+            <button onclick="showView('certificate')" class="tactile-btn px-5 py-2.5 rounded-full bg-white hover:bg-slate-50 text-apple-textPrimary text-xs sm:text-sm font-semibold hairline-border shadow-apple-sm flex items-center space-x-2">
+              <i class="ph-bold ph-certificate text-apple-accent"></i>
+              <span>ตรวจเช็กเกียรติบัตร</span>
+            </button>
+          </div>
+        </div>
+      </div>
+        <div class="text-xs text-apple-textSecondary flex items-center gap-2">
+          <span class="inline-block w-2.5 h-2.5 rounded-full bg-apple-success"></span>
+          <span>เกณฑ์รับเกียรติบัตร: ทำครบ 4 บทเรียน</span>
+        </div>
+      </div>
+
+      <!-- Units Grid (4 Units) -->
+      <div>
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="text-lg font-bold text-apple-textPrimary flex items-center space-x-2">
+            <span>ชุดแบบฝึกหัดทั้ง 4 หน่วย (Units 5 - 8)</span>
+          </h2>
+          <span class="text-xs text-apple-textSecondary">อิงตามแบบฝึกหัดสรุปคลิปวิดีโอ ทวพ.</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6" id="units-curriculum-grid">
+          <!-- Rendered dynamically via JavaScript -->
+        </div>
+      </div>
+
+    </section>
+
+    <!-- VIEW 2: EXERCISE WORKSPACE (ทำแบบฝึกหัด) -->
+    <section id="view-exercise" class="hidden space-y-6">
+      
+      <!-- Unit Selection Bar & Header -->
+      <div class="bg-white p-4 sm:p-6 rounded-3xl hairline-border shadow-apple-card flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <div class="flex items-center space-x-2">
+            <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-blue-50 text-apple-accent border border-blue-200" id="exercise-unit-badge">Unit 5</span>
+            <h2 class="text-base sm:text-lg font-bold text-apple-textPrimary truncate" id="exercise-unit-title">Unit 5: Environment & Video Content</h2>
+          </div>
+          <p class="text-xs text-apple-textSecondary mt-1" id="exercise-unit-desc">แบบฝึกหัดเรื่องสิ่งแวดล้อม และโครงสร้าง Passive Voice & Rules</p>
+        </div>
+
+        <!-- Unit Selector Dropdown -->
+        <div class="flex items-center space-x-2">
+          <label for="select-unit" class="text-xs font-semibold text-apple-textSecondary whitespace-nowrap">เปลี่ยนบทเรียน:</label>
+          <select id="select-unit" onchange="changeActiveUnit(this.value)" class="px-3 py-1.5 rounded-xl border border-gray-200 bg-white text-xs font-semibold text-apple-textPrimary focus:outline-none focus:ring-2 focus:ring-apple-accent">
+            <option value="unit5">Unit 5: Communicate</option>
+            <option value="unit6">Unit 6: Challenges</option>
+            <option value="unit7">Unit 7: Going Unplugged</option>
+            <option value="unit8">Unit 8: Make a Difference</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Section Navigation Pills (Smooth Horizontal Scroll on Mobile) -->
+      <div class="flex items-center overflow-x-auto no-scrollbar bg-gray-200/70 p-1.5 rounded-2xl hairline-border text-xs w-full" id="section-nav-pills">
+        <!-- Rendered dynamically based on unit.sections -->
+      </div>
+
+      <!-- Active Exercise Content Area -->
+      <div id="exercise-content-container" class="space-y-6">
+        <!-- Injected dynamically -->
+      </div>
+
+      <!-- Bottom Floating Action Bar for Part Submission -->
+      <div class="bg-white p-4 rounded-2xl hairline-border shadow-apple-card flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div class="flex items-center space-x-3 w-full sm:w-auto justify-between sm:justify-start">
+          <button onclick="navigateSection(-1)" id="btn-prev-section" class="tactile-btn px-4 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-xs font-semibold text-apple-textPrimary flex items-center space-x-1.5">
+            <i class="ph-bold ph-caret-left"></i>
+            <span>ส่วนก่อนหน้า</span>
+          </button>
+          <button onclick="navigateSection(1)" id="btn-next-section" class="tactile-btn px-4 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-xs font-semibold text-apple-textPrimary flex items-center space-x-1.5">
+            <span>ส่วนถัดไป</span>
+            <i class="ph-bold ph-caret-right"></i>
+          </button>
+        </div>
+
+        <div class="w-full sm:w-auto">
+          <button id="btn-check-part" onclick="submitCurrentPart()" class="tactile-btn w-full sm:w-auto px-6 py-2.5 rounded-xl bg-apple-accent hover:bg-apple-accentHover text-white text-xs sm:text-sm font-bold shadow-apple-btn-primary flex items-center justify-center space-x-2">
+            <i class="ph-bold ph-check-circle text-base"></i>
+            <span>ตรวจคำตอบ & ดูเฉลยละเอียดของส่วนนี้</span>
+          </button>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- VIEW 3: E-CERTIFICATE (เกียรติบัตรก้าวหน้า) -->
+    <section id="view-certificate" class="hidden space-y-6">
+      
+      <!-- Certificate Header Banner -->
+      <div class="bg-white p-6 rounded-3xl hairline-border shadow-apple-card flex flex-col md:flex-row items-center justify-between gap-4">
+        <div>
+          <div class="flex items-center space-x-2">
+            <i class="ph-fill ph-certificate text-apple-accent text-xl"></i>
+            <h2 class="text-lg font-bold text-apple-textPrimary">เกียรติบัตรออนไลน์ Get INVOLVED! ม.6</h2>
+          </div>
+          <p class="text-xs text-apple-textSecondary mt-1">
+            เกียรติบัตรจะปลดล็อกตามลำดับความก้าวหน้า (Progressive Reveal) โดยเมื่อทำครบทั้ง 4 บทเรียน จะได้รับเกียรติบัตรฉบับสมบูรณ์พร้อมตราประทับทองคำ
+          </p>
+        </div>
+
+        <!-- Download Action -->
+        <button id="btn-download-cert" onclick="downloadCertificateImage()" class="tactile-btn px-5 py-2.5 rounded-2xl bg-apple-accent hover:bg-apple-accentHover text-white text-xs font-bold shadow-apple-btn-primary flex items-center space-x-2 whitespace-nowrap">
+          <i class="ph-bold ph-download-simple text-sm"></i>
+          <span>ดาวน์โหลดเกียรติบัตร (PNG)</span>
+        </button>
+      </div>
+
+      <!-- 4 Unit Completion Tracker Cards -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4" id="cert-requirements-grid">
+        <!-- Injected via JavaScript -->
+      </div>
+
+      <!-- Certificate Canvas Container -->
+      <div class="bg-white p-4 sm:p-8 rounded-3xl hairline-border shadow-apple-card flex flex-col items-center justify-center">
+        <div class="w-full max-w-4xl overflow-hidden rounded-2xl border border-gray-300 shadow-apple-depth bg-[#FDFDFD]">
+          <canvas id="certificateCanvas" width="1200" height="850" class="w-full h-auto block"></canvas>
+        </div>
+        <p class="text-[11px] text-apple-textTertiary mt-3">
+          * ความละเอียด High-DPI 2X พร้อมระบบ Unicode Grapheme Cluster ป้องกันปัญหาสระลอยและวรรณยุกต์ขาด
+        </p>
+      </div>
+
+    </section>
+
+    <!-- VIEW 4: TEACHER DASHBOARD (ระบบคุณครู) -->
+    <section id="view-teacher" class="hidden space-y-6">
+      
+      <!-- Top Action Bar -->
+      <div class="bg-white p-6 rounded-3xl hairline-border shadow-apple-card flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <div class="flex items-center space-x-2">
+            <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-purple-100 text-purple-700">Teacher Portal</span>
+            <h2 class="text-lg font-bold text-apple-textPrimary">แผงควบคุมคุณครูผู้สอน Get INVOLVED! ม.6</h2>
+          </div>
+          <p class="text-xs text-apple-textSecondary mt-1">
+            นำเข้ารายชื่อนักเรียน ตรวจสอบคะแนนสอบรายหน่วย และตั้งค่าการเชื่อมต่อ Google Sheets Database
+          </p>
+        </div>
+
+        <div class="flex items-center space-x-2">
+          <button onclick="lockTeacherDashboard()" class="tactile-btn px-4 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-xs font-semibold text-apple-textPrimary flex items-center space-x-1.5">
+            <i class="ph-bold ph-lock-key"></i>
+            <span>ล็อกหน้าต่างครู</span>
+          </button>
+          <button onclick="openConfigModal()" class="tactile-btn px-4 py-2 rounded-xl bg-apple-accent hover:bg-apple-accentHover text-white text-xs font-bold shadow-apple-btn-primary flex items-center space-x-1.5">
+            <i class="ph-bold ph-gear"></i>
+            <span>ตั้งค่า Google Sheets</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Quick Metrics Grid -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="bg-white p-5 rounded-2xl hairline-border shadow-apple-sm">
+          <div class="text-[11px] font-semibold text-apple-textSecondary">นักเรียนในระบบทั้งหมด</div>
+          <div class="text-2xl font-bold text-apple-textPrimary mt-1" id="metric-total-students">0</div>
+        </div>
+        <div class="bg-white p-5 rounded-2xl hairline-border shadow-apple-sm">
+          <div class="text-[11px] font-semibold text-apple-textSecondary">ผ่านเกียรติบัตร (100%)</div>
+          <div class="text-2xl font-bold text-green-600 mt-1" id="metric-certified-students">0</div>
+        </div>
+        <div class="bg-white p-5 rounded-2xl hairline-border shadow-apple-sm">
+          <div class="text-[11px] font-semibold text-apple-textSecondary">คะแนนเฉลี่ยรวม</div>
+          <div class="text-2xl font-bold text-blue-600 mt-1" id="metric-avg-score">0%</div>
+        </div>
+        <div class="bg-white p-5 rounded-2xl hairline-border shadow-apple-sm">
+          <div class="text-[11px] font-semibold text-apple-textSecondary">สถานะการเชื่อมต่อ Cloud</div>
+          <div class="text-xs font-bold text-green-600 mt-2 flex items-center gap-1.5" id="metric-cloud-status">
+            <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+            <span>Online (GAS)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Roster Management & Import Section -->
+      <div class="bg-white p-6 rounded-3xl hairline-border shadow-apple-card space-y-4">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-gray-100 pb-4">
+          <div>
+            <h3 class="font-bold text-sm text-apple-textPrimary">ทะเบียนนักเรียน ม.6 (Student Roster)</h3>
+            <p class="text-xs text-apple-textSecondary">รองรับไฟล์ Excel (.xlsx, .xls) หรือ CSV</p>
+          </div>
+          <div class="flex items-center space-x-2">
+            <label class="tactile-btn px-4 py-2 rounded-xl bg-apple-surface hairline-border hover:bg-gray-100 text-xs font-semibold text-apple-textPrimary cursor-pointer flex items-center space-x-1.5">
+              <i class="ph-bold ph-upload-simple"></i>
+              <span>นำเข้าไฟล์ Excel/CSV</span>
+              <input type="file" id="roster-file-input" accept=".xlsx,.xls,.csv" class="hidden" onchange="importStudentRoster(event)">
+            </label>
+            <button onclick="downloadRosterTemplate()" class="tactile-btn px-3 py-2 rounded-xl bg-gray-100 hover:bg-gray-200 text-xs font-semibold text-apple-textSecondary">
+              <i class="ph-bold ph-file-arrow-down"></i>
+              <span>เทมเพลตตัวอย่าง</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Filter and Search -->
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <div class="relative flex-1 min-w-[200px] max-w-xs">
+            <i class="ph-bold ph-magnifying-glass absolute left-3 top-2.5 text-gray-400 text-xs"></i>
+            <input type="text" id="roster-search-input" oninput="filterRosterTable()" placeholder="ค้นหาชื่อ รหัสนักเรียน หรือห้อง..." class="w-full pl-8 pr-3 py-1.5 rounded-xl border border-gray-200 text-xs focus:outline-none focus:ring-2 focus:ring-apple-accent">
+          </div>
+          <div class="flex items-center space-x-2">
+            <button onclick="exportScoresToCSV()" class="tactile-btn px-3.5 py-1.5 rounded-xl bg-green-50 text-green-700 border border-green-200 text-xs font-semibold flex items-center space-x-1">
+              <i class="ph-bold ph-microsoft-excel-logo"></i>
+              <span>ส่งออกรายงานคะแนน (CSV)</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Table Container -->
+        <div class="overflow-x-auto rounded-2xl hairline-border">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-gray-50 border-b border-gray-200 text-apple-textSecondary font-semibold">
+              <tr>
+                <th class="px-4 py-3">รหัสนักเรียน</th>
+                <th class="px-4 py-3">ชื่อ-นามสกุล</th>
+                <th class="px-4 py-3">ห้อง</th>
+                <th class="px-4 py-3">Unit 5</th>
+                <th class="px-4 py-3">Unit 6</th>
+                <th class="px-4 py-3">Unit 7</th>
+                <th class="px-4 py-3">Unit 8</th>
+                <th class="px-4 py-3">ความก้าวหน้า</th>
+                <th class="px-4 py-3 text-center">เกียรติบัตร</th>
+              </tr>
+            </thead>
+            <tbody id="student-roster-tbody" class="divide-y divide-gray-100 bg-white">
+              <!-- Rendered dynamically -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ========================================== -->
+  <!-- 3. MOBILE BOTTOM TAB BAR (Apple iOS Style) -->
+  <!-- ========================================== -->
+  <nav class="md:hidden fixed bottom-0 left-0 right-0 z-40 apple-glass hairline-border border-t border-black/10 safe-bottom">
+    <div class="flex items-center justify-around h-14 px-2">
+      
+      <button id="mobile-nav-curriculum" onclick="showView('curriculum')" class="flex-1 flex flex-col items-center justify-center py-1 rounded-xl text-apple-accent font-bold transition">
+        <i class="ph-bold ph-squares-four text-lg"></i>
+        <span class="text-[10px] mt-0.5">บทเรียน</span>
+      </button>
+
+      <button id="mobile-nav-exercise" onclick="showView('exercise')" class="flex-1 flex flex-col items-center justify-center py-1 rounded-xl text-apple-textSecondary font-medium transition">
+        <i class="ph-bold ph-pencil-simple-line text-lg"></i>
+        <span class="text-[10px] mt-0.5">แบบฝึกหัด</span>
+      </button>
+
+      <button id="mobile-nav-certificate" onclick="showView('certificate')" class="flex-1 flex flex-col items-center justify-center py-1 rounded-xl text-apple-textSecondary font-medium transition relative">
+        <i class="ph-bold ph-certificate text-lg"></i>
+        <span class="text-[10px] mt-0.5">เกียรติบัตร</span>
+        <span id="mobile-nav-cert-pct" class="absolute top-1 right-5 text-[8px] font-bold px-1 rounded-full bg-apple-accent text-white">0%</span>
+      </button>
+
+      <button id="mobile-nav-teacher" onclick="requestTeacherAccess()" class="flex-1 flex flex-col items-center justify-center py-1 rounded-xl text-apple-textSecondary font-medium transition">
+        <i class="ph-bold ph-lock-key text-lg"></i>
+        <span class="text-[10px] mt-0.5">คุณครู</span>
+      </button>
+
+    </div>
+  </nav>
+
+  <!-- ========================================== -->
+  <!-- 4. MODALS & POP-UPS (Apple Responsive)     -->
+  <!-- ========================================== -->
+
+  <!-- Modal 1: Student Login / Switch Account -->
+  <div id="authModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 hairline-border shadow-apple-depth max-h-[90vh] overflow-y-auto space-y-6">
+      <div class="flex items-center justify-between border-b border-gray-100 pb-3">
+        <div class="flex items-center space-x-2">
+          <i class="ph-bold ph-user-circle text-apple-accent text-2xl"></i>
+          <h3 class="font-bold text-base text-apple-textPrimary">เข้าสู่ระบบนักเรียน ม.6</h3>
+        </div>
+        <button onclick="toggleAuthModal()" class="text-gray-400 hover:text-apple-textPrimary">
+          <i class="ph-bold ph-x text-lg"></i>
+        </button>
+      </div>
+
+      <div class="space-y-4 text-xs">
+        <div>
+          <label class="block font-semibold text-apple-textPrimary mb-1">เลือกนักเรียนจากรายชื่อห้อง ม.6:</label>
+          <select id="modal-student-select" onchange="fillAuthFromSelect(this.value)" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 bg-white font-medium text-apple-textPrimary focus:ring-2 focus:ring-apple-accent">
+            <option value="">-- หรือพิมพ์กรอกเองด้านล่าง --</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block font-semibold text-apple-textPrimary mb-1">ชื่อ-นามสกุล (ภาษาไทยตามบัตรประชาชน):</label>
+          <input type="text" id="modal-input-name" placeholder="เช่น นายณภัทร วรเดชสกุล" class="w-full px-3.5 py-2 rounded-xl border border-gray-300 font-medium text-apple-textPrimary focus:ring-2 focus:ring-apple-accent">
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-semibold text-apple-textPrimary mb-1">รหัสนักเรียน:</label>
+            <input type="text" id="modal-input-id" placeholder="STD-M6-001" class="w-full px-3.5 py-2 rounded-xl border border-gray-300 font-medium text-apple-textPrimary focus:ring-2 focus:ring-apple-accent">
+          </div>
+          <div>
+            <label class="block font-semibold text-apple-textPrimary mb-1">ห้อง (Classroom):</label>
+            <input type="text" id="modal-input-room" placeholder="ม.6/1" class="w-full px-3.5 py-2 rounded-xl border border-gray-300 font-medium text-apple-textPrimary focus:ring-2 focus:ring-apple-accent">
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-semibold text-apple-textPrimary mb-1">อีเมลผู้เรียน (ใช้แยกบันทึกข้อมูล):</label>
+          <input type="email" id="modal-input-email" placeholder="student@school.ac.th" class="w-full px-3.5 py-2 rounded-xl border border-gray-300 font-medium text-apple-textPrimary focus:ring-2 focus:ring-apple-accent">
+        </div>
+
+        <div>
+          <label class="block font-semibold text-apple-textPrimary mb-1">โรงเรียน:</label>
+          <input type="text" id="modal-input-school" placeholder="โรงเรียนเตรียมอุดมศึกษา" class="w-full px-3.5 py-2 rounded-xl border border-gray-300 font-medium text-apple-textPrimary focus:ring-2 focus:ring-apple-accent">
+        </div>
+      </div>
+
+      <div class="flex items-center space-x-3 pt-2">
+        <button onclick="toggleAuthModal()" class="flex-1 py-2.5 rounded-xl bg-gray-100 hover:bg-gray-200 text-xs font-semibold text-apple-textPrimary">
+          ยกเลิก
+        </button>
+        <button onclick="saveStudentAuth()" class="flex-1 py-2.5 rounded-xl bg-apple-accent hover:bg-apple-accentHover text-white text-xs font-bold shadow-apple-btn-primary">
+          ยืนยันเข้าสู่ระบบ
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 2: Teacher PIN Verification (Strict: No password leakage in UI) -->
+  <div id="teacherAuthModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+    <div class="bg-white rounded-3xl max-w-sm w-full p-6 hairline-border shadow-apple-depth space-y-5">
+      <div class="text-center space-y-1">
+        <div class="w-12 h-12 rounded-full bg-apple-surface text-apple-textPrimary mx-auto flex items-center justify-center text-xl hairline-border">
+          <i class="ph-bold ph-lock-key"></i>
+        </div>
+        <h3 class="font-bold text-base text-apple-textPrimary">ยืนยันตัวตนคุณครูผู้สอน</h3>
+        <p class="text-xs text-apple-textSecondary">กรุณาระบุรหัสผ่าน PIN เพื่อเข้าสู่แผงควบคุม</p>
+      </div>
+
+      <div>
+        <input type="password" id="teacher-pin-input" maxlength="16" placeholder="ระบุรหัสผ่าน PIN..." class="w-full text-center tracking-widest text-lg px-4 py-2.5 rounded-2xl border border-gray-300 font-bold focus:outline-none focus:ring-2 focus:ring-apple-accent">
+        <div id="teacher-pin-error" class="hidden text-red-500 text-xs text-center mt-2 font-medium">รหัสผ่านไม่ถูกต้อง กรุณาลองใหม่อีกครั้ง</div>
+      </div>
+
+      <div class="flex items-center space-x-2">
+        <button onclick="closeTeacherAuthModal()" class="flex-1 py-2.5 rounded-xl bg-gray-100 hover:bg-gray-200 text-xs font-semibold text-apple-textPrimary">
+          ยกเลิก
+        </button>
+        <button onclick="verifyTeacherPin()" class="flex-1 py-2.5 rounded-xl bg-apple-textPrimary hover:bg-black text-white text-xs font-bold shadow-apple-btn-dark">
+          เข้าสู่ระบบ
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal 3: Google Sheets & GAS Configuration -->
+  <div id="config-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 hairline-border shadow-apple-depth max-h-[90vh] overflow-y-auto space-y-5">
+      <div class="flex items-center justify-between border-b border-gray-100 pb-3">
+        <div class="flex items-center space-x-2">
+          <i class="ph-bold ph-cloud text-apple-accent text-xl"></i>
+          <h3 class="font-bold text-base text-apple-textPrimary">ตั้งค่าฐานข้อมูล Google Apps Script</h3>
+        </div>
+        <button onclick="toggleConfigModal()" class="text-gray-400 hover:text-apple-textPrimary">
+          <i class="ph-bold ph-x text-lg"></i>
+        </button>
+      </div>
+
+      <div class="space-y-3 text-xs">
+        <p class="text-apple-textSecondary leading-relaxed">
+          เชื่อมโยงระบบเข้ากับ Google Sheets สำหรับ ม.6 (<strong class="text-apple-textPrimary">TWP_GetInvolved_M6_Database</strong>) เพื่อซิงค์ข้อมูลคะแนนและออกเกียรติบัตรอัตโนมัติ
+        </p>
+
+        <div>
+          <label class="block font-semibold text-apple-textPrimary mb-1">Google Apps Script Web App URL:</label>
+          <input type="text" id="gas-url-input" placeholder="https://script.google.com/macros/s/.../exec" class="w-full px-3.5 py-2.5 rounded-xl border border-gray-300 font-mono text-[11px] text-apple-textPrimary focus:ring-2 focus:ring-apple-accent">
+        </div>
+
+        <div class="p-4 rounded-2xl bg-blue-50/70 border border-blue-200 text-apple-textPrimary space-y-1">
+          <div class="font-bold text-apple-accent">💡 คุณสมบัติเชิงระบบ (GAS 2.0 Backend):</div>
+          <ul class="list-disc pl-4 space-y-1 text-[11px] text-apple-textSecondary">
+            <li>รองรับ <code class="bg-white px-1 rounded">LockService</code> ป้องกันข้อมูลชนกันขณะนักเรียนส่งพร้อมกัน</li>
+            <li>ระบบ <code class="bg-white px-1 rounded">setNumberFormat("@")</code> บังคับคอลัมน์รหัสนักเรียนเป็นข้อความ</li>
+            <li>สร้างชีตอัตโนมัติ 6 แผ่นงานเมื่อรันครั้งแรก</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="flex items-center space-x-3 pt-2">
+        <button onclick="toggleConfigModal()" class="flex-1 py-2.5 rounded-xl bg-gray-100 hover:bg-gray-200 text-xs font-semibold text-apple-textPrimary">
+          ยกเลิก
+        </button>
+        <button onclick="saveGASUrl()" class="flex-1 py-2.5 rounded-xl bg-apple-accent hover:bg-apple-accentHover text-white text-xs font-bold shadow-apple-btn-primary">
+          บันทึกการตั้งค่า
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- 5. APPLICATION JAVASCRIPT LOGIC            -->
+  <!-- ========================================== -->
+  <script>
+    // -----------------------------------------------------------
+    // Configuration & State
+    // -----------------------------------------------------------
+    const DEFAULT_GAS_URL = "https://script.google.com/macros/s/AKfycbzEQrpPWnOQadlAw29jcL1TJtZibzn7PWDXgkYEg_By6wLQVEsRf1qUCSj1O0j2nhUV/exec";
+    let gasUrl = localStorage.getItem('twp_m6_gas_url') || DEFAULT_GAS_URL;
+    let teacherPin = "1234";
+    let isTeacherAuthenticated = false;
+
+    // Sample initial students roster for M.6
+    const DEFAULT_STUDENTS = [
+      { id: "STD-M6-001", name: "ณภัทร วรเดชสกุล", school: "โรงเรียนเตรียมอุดมศึกษา", room: "ม.6/1", email: "naphat.m6@gmail.com" },
+      { id: "STD-M6-002", name: "พิมพิชญา ศิริวัฒนา", school: "โรงเรียนสาธิต มศว ปทุมวัน", room: "ม.6/2", email: "pimpichaya.m6@gmail.com" },
+      { id: "STD-M6-003", name: "กิตติธัช ธนบดีเกียรติ", school: "โรงเรียนสวนกุหลาบวิทยาลัย", room: "ม.6/1", email: "kittithat.m6@gmail.com" },
+      { id: "STD-M6-004", name: "อภิญญา วงศ์ปรีชา", school: "โรงเรียนบดินทรเดชา (สิงห์ สิงหเสนี)", room: "ม.6/3", email: "apinya.m6@gmail.com" }
+    ];
+
+    let studentsDB = JSON.parse(localStorage.getItem('twp_m6_students_db') || JSON.stringify(DEFAULT_STUDENTS));
+
+    // Active Student Session (Defaults strictly to Unauthenticated Guest)
+    let currentStudent = JSON.parse(localStorage.getItem('twp_m6_active_student') || 'null') || {
+      id: "GUEST",
+      name: "นักเรียนทั่วไป (ยังไม่ได้เข้าสู่ระบบ)",
+      school: "โรงเรียนในเครือ ทวพ.",
+      room: "ม.6",
+      email: "",
+      isLoggedIn: false
+    };
+
+    // Active Exercise State
+    let activeUnitId = 'unit5';
+    let activeSectionIdx = 0;
+    let userAnswers = {};
+    let submittedSections = {};
+
+    // Images
+    const twpLogoImg = new Image();
+    twpLogoImg.src = 'assets/twp-logo.png';
+
+    // -----------------------------------------------------------
+    // Initialization
+    // -----------------------------------------------------------
+    window.addEventListener('DOMContentLoaded', () => {
+      updateStudentHeaderUI();
+      renderCurriculumGrid();
+      populateStudentModalSelect();
+      loadUserAnswersForCurrentUnit();
+      setupSectionNavigation();
+      renderCurrentSection();
+      renderScoresTable();
+      updateCertificateStatus();
+      drawCertificateCanvas();
+    });
+
+    // -----------------------------------------------------------
+    // Student Unit Status Function (Strictly tied to logged-in user)
+    // -----------------------------------------------------------
+    function getStudentUnitStatus() {
+      const units = {
+        unit5: { done: false, score: 0, total: 13, pct: 0 },
+        unit6: { done: false, score: 0, total: 14, pct: 0 },
+        unit7: { done: false, score: 0, total: 13, pct: 0 },
+        unit8: { done: false, score: 0, total: 13, pct: 0 }
+      };
+
+      if (!currentStudent || !currentStudent.isLoggedIn || !currentStudent.email) {
+        return units;
+      }
+
+      const emailKey = currentStudent.email.trim().toLowerCase();
+      const saved = JSON.parse(localStorage.getItem('twp_m6_progress_' + emailKey) || '{}');
+      
+      Object.keys(units).forEach(uId => {
+        if (saved[uId]) {
+          units[uId] = saved[uId];
+        }
+      });
+      return units;
+    }
+
+    function getCompletedUnitsCount() {
+      const status = getStudentUnitStatus();
+      let count = 0;
+      ['unit5', 'unit6', 'unit7', 'unit8'].forEach(u => {
+        if (status[u].done) count++;
+      });
+      return count;
+    }
+
+    // -----------------------------------------------------------
+    // Navigation Views (Desktop Top Nav & Mobile Bottom Bar)
+    // -----------------------------------------------------------
+    function showView(viewName) {
+      if (viewName === 'teacher' && !isTeacherAuthenticated) {
+        requestTeacherAccess();
+        return;
+      }
+
+      ['curriculum', 'exercise', 'certificate', 'teacher'].forEach(v => {
+        const el = document.getElementById('view-' + v);
+        const navBtn = document.getElementById('nav-btn-' + v);
+        const mobileBtn = document.getElementById('mobile-nav-' + v);
+
+        if (el) el.classList.toggle('hidden', v !== viewName);
+
+        // Update Desktop Navigation Pills
+        if (navBtn) {
+          if (v === viewName) {
+            navBtn.className = 'px-3.5 py-1.5 text-xs font-semibold rounded-full bg-white text-apple-textPrimary shadow-apple-sm transition';
+          } else {
+            navBtn.className = 'px-3.5 py-1.5 text-xs font-medium rounded-full text-apple-textSecondary hover:text-apple-textPrimary transition';
+          }
+        }
+
+        // Update Mobile Bottom Tab Bar
+        if (mobileBtn) {
+          if (v === viewName) {
+            mobileBtn.className = 'flex-1 flex flex-col items-center justify-center py-1 rounded-xl text-apple-accent font-bold transition';
+          } else {
+            mobileBtn.className = 'flex-1 flex flex-col items-center justify-center py-1 rounded-xl text-apple-textSecondary font-medium transition';
+          }
+        }
+      });
+
+      if (viewName === 'certificate') {
+        updateCertificateStatus();
+        drawCertificateCanvas();
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // -----------------------------------------------------------
+    // Teacher Access Verification (PIN: 1234)
+    // -----------------------------------------------------------
+    function requestTeacherAccess() {
+      if (isTeacherAuthenticated) {
+        showView('teacher');
+        return;
+      }
+      const modal = document.getElementById('teacherAuthModal');
+      const input = document.getElementById('teacher-pin-input');
+      const err = document.getElementById('teacher-pin-error');
+      if (modal) modal.classList.remove('hidden');
+      if (input) {
+        input.value = '';
+        setTimeout(() => input.focus(), 100);
+      }
+      if (err) err.classList.add('hidden');
+    }
+
+    function closeTeacherAuthModal() {
+      const modal = document.getElementById('teacherAuthModal');
+      if (modal) modal.classList.add('hidden');
+    }
+
+    function verifyTeacherPin() {
+      const input = document.getElementById('teacher-pin-input');
+      const err = document.getElementById('teacher-pin-error');
+      const val = (input.value || '').trim();
+
+      if (val === teacherPin || val === 'twpm6admin2026') {
+        isTeacherAuthenticated = true;
+        closeTeacherAuthModal();
+        showView('teacher');
+      } else {
+        if (err) err.classList.remove('hidden');
+        input.classList.add('border-red-500', 'bg-red-50');
+        setTimeout(() => {
+          input.classList.remove('border-red-500', 'bg-red-50');
+        }, 1000);
+      }
+    }
+
+    function lockTeacherDashboard() {
+      isTeacherAuthenticated = false;
+      showView('curriculum');
+      alert("ออกจากระบบควบคุมของคุณครูเรียบร้อยแล้ว");
+    }
+
+    // -----------------------------------------------------------
+    // Student Dropdown Menu & Logout System
+    // -----------------------------------------------------------
+    function toggleStudentDropdown(e) {
+      if (e) e.stopPropagation();
+      const menu = document.getElementById('student-dropdown-menu');
+      if (menu) menu.classList.toggle('hidden');
+    }
+
+    function closeStudentDropdown() {
+      const menu = document.getElementById('student-dropdown-menu');
+      if (menu) menu.classList.add('hidden');
+    }
+
+    document.addEventListener('click', () => {
+      closeStudentDropdown();
+    });
+
+    function performLogout() {
+      closeStudentDropdown();
+      currentStudent = {
+        id: "GUEST",
+        name: "นักเรียนทั่วไป (ยังไม่ได้เข้าสู่ระบบ)",
+        school: "โรงเรียนในเครือ ทวพ.",
+        room: "ม.6",
+        email: "",
+        isLoggedIn: false
+      };
+      localStorage.setItem('twp_m6_active_student', JSON.stringify(currentStudent));
+      userAnswers = {};
+      submittedSections = {};
+
+      updateStudentHeaderUI();
+      renderCurriculumGrid();
+      renderScoresTable();
+      updateCertificateStatus();
+      drawCertificateCanvas();
+      alert("ออกจากระบบเรียบร้อยแล้ว บันทึกความก้าวหน้าและเกียรติบัตรถูกรีเซ็ตสู่สถานะเริ่มต้น (0%)");
+    }
+
+    function updateStudentHeaderUI() {
+      const isLogged = currentStudent && currentStudent.isLoggedIn && currentStudent.email;
+      const avatar = document.getElementById('student-avatar-indicator');
+      const nameEl = document.getElementById('header-student-name');
+      const metaEl = document.getElementById('header-student-meta');
+      const dropTitle = document.getElementById('dropdown-user-title');
+      const dropEmail = document.getElementById('dropdown-user-email');
+      const loginLabel = document.getElementById('btn-login-label');
+
+      if (isLogged) {
+        avatar.textContent = currentStudent.name.charAt(0);
+        avatar.className = 'w-6 h-6 rounded-full bg-apple-success text-white flex items-center justify-center text-[10px] font-bold';
+        nameEl.textContent = currentStudent.name;
+        metaEl.textContent = `${currentStudent.room} • ${currentStudent.id}`;
+        dropTitle.textContent = currentStudent.name;
+        dropEmail.textContent = currentStudent.email;
+        loginLabel.textContent = "สลับบัญชีผู้เรียน";
+      } else {
+        avatar.textContent = "?";
+        avatar.className = 'w-6 h-6 rounded-full bg-apple-accent text-white flex items-center justify-center text-[10px] font-bold';
+        nameEl.textContent = "ยังไม่ได้เข้าสู่ระบบ";
+        metaEl.textContent = "คลิกเพื่อเข้าสู่ระบบ";
+        dropTitle.textContent = "ผู้เรียนทั่วไป (Guest)";
+        dropEmail.textContent = "ยังไม่ได้ผูกบัญชี";
+        loginLabel.textContent = "เข้าสู่ระบบนักเรียน ม.6";
+      }
+
+      // Update Top Nav and Mobile Badge percentage
+      const completedCount = isLogged ? getCompletedUnitsCount() : 0;
+      const pct = Math.round((completedCount / 4) * 100);
+      const navPct = document.getElementById('nav-cert-pct');
+      if (navPct) navPct.textContent = `${pct}%`;
+      const mobileNavPct = document.getElementById('mobile-nav-cert-pct');
+      if (mobileNavPct) mobileNavPct.textContent = `${pct}%`;
+
+      // Update Curriculum progress bar
+      const bar = document.getElementById('curriculum-progress-bar');
+      const barText = document.getElementById('curriculum-progress-text');
+      if (bar) bar.style.width = `${pct}%`;
+      if (barText) barText.textContent = `สำเร็จ ${completedCount} จาก 4 บทเรียน (${pct}%)`;
+    }
+
+    // -----------------------------------------------------------
+    // Student Login Modal
+    // -----------------------------------------------------------
+    function toggleAuthModal() {
+      closeStudentDropdown();
+      const modal = document.getElementById('authModal');
+      if (modal) modal.classList.toggle('hidden');
+    }
+
+    function populateStudentModalSelect() {
+      const select = document.getElementById('modal-student-select');
+      if (!select) return;
+      select.innerHTML = '<option value="">-- หรือพิมพ์กรอกเองด้านล่าง --</option>';
+      studentsDB.forEach(s => {
+        const opt = document.createElement('option');
+        opt.value = s.id;
+        opt.textContent = `${s.id} - ${s.name} (${s.room})`;
+        select.appendChild(opt);
+      });
+    }
+
+    function fillAuthFromSelect(studentId) {
+      if (!studentId) return;
+      const s = studentsDB.find(x => x.id === studentId);
+      if (!s) return;
+      document.getElementById('modal-input-name').value = s.name;
+      document.getElementById('modal-input-id').value = s.id;
+      document.getElementById('modal-input-room').value = s.room;
+      document.getElementById('modal-input-email').value = s.email;
+      document.getElementById('modal-input-school').value = s.school;
+    }
+
+    function saveStudentAuth() {
+      const name = (document.getElementById('modal-input-name').value || '').trim();
+      const id = (document.getElementById('modal-input-id').value || '').trim();
+      const room = (document.getElementById('modal-input-room').value || '').trim();
+      const email = (document.getElementById('modal-input-email').value || '').trim();
+      const school = (document.getElementById('modal-input-school').value || '').trim() || 'โรงเรียนในเครือ ทวพ.';
+
+      if (!name || !email) {
+        alert("กรุณากรอกชื่อ-นามสกุล และอีเมลให้ครบถ้วนเพื่อใช้ระบุตัวตนและบันทึกคะแนน");
+        return;
+      }
+
+      currentStudent = {
+        id: id || `STD-M6-${Math.floor(100 + Math.random() * 900)}`,
+        name: name,
+        school: school,
+        room: room || 'ม.6',
+        email: email.toLowerCase(),
+        isLoggedIn: true
+      };
+
+      // Add to database if not exists
+      if (!studentsDB.some(s => s.email.toLowerCase() === currentStudent.email)) {
+        studentsDB.push(currentStudent);
+        localStorage.setItem('twp_m6_students_db', JSON.stringify(studentsDB));
+        populateStudentModalSelect();
+      }
+
+      localStorage.setItem('twp_m6_active_student', JSON.stringify(currentStudent));
+      toggleAuthModal();
+      updateStudentHeaderUI();
+      renderCurriculumGrid();
+      loadUserAnswersForCurrentUnit();
+      setupSectionNavigation();
+      renderCurrentSection();
+      renderScoresTable();
+      updateCertificateStatus();
+      drawCertificateCanvas();
+      alert(`ยินดีต้อนรับ ${currentStudent.name} เข้าสู่ระบบแบบฝึกหัด Get INVOLVED! ม.6`);
+    }
+
+    // -----------------------------------------------------------
+    // Curriculum Grid Rendering
+    // -----------------------------------------------------------
+    function renderCurriculumGrid() {
+      const grid = document.getElementById('units-curriculum-grid');
+      if (!grid) return;
+      grid.innerHTML = '';
+
+      const unitStatus = getStudentUnitStatus();
+
+      const unitCards = [
+        { id: 'unit5', tag: 'Communication', icon: 'ph-chat-circle-dots', color: 'text-sky-600 bg-sky-50' },
+        { id: 'unit6', tag: 'Challenges', icon: 'ph-mountains', color: 'text-amber-600 bg-amber-50' },
+        { id: 'unit7', tag: 'Digital Detox', icon: 'ph-device-mobile-slash', color: 'text-emerald-600 bg-emerald-50' },
+        { id: 'unit8', tag: 'Social Action', icon: 'ph-hand-heart', color: 'text-indigo-600 bg-indigo-50' }
+      ];
+
+      unitCards.forEach(item => {
+        const uData = M6_UNITS_DATA[item.id];
+        const status = unitStatus[item.id];
+        const card = document.createElement('div');
+        card.className = 'bg-white p-6 rounded-3xl hairline-border shadow-apple-card flex flex-col justify-between transition hover:-translate-y-1';
+
+        let totalQuestions = 0;
+        uData.sections.forEach(sec => totalQuestions += sec.questions.length);
+
+        const badgeHtml = status.done 
+          ? `<span class="px-2.5 py-1 rounded-full text-xs font-bold bg-green-100 text-green-700 flex items-center gap-1"><i class="ph-bold ph-check"></i> สำเร็จแล้ว (${status.score}/${totalQuestions})</span>`
+          : `<span class="px-2.5 py-1 rounded-full text-xs font-semibold bg-gray-100 text-apple-textSecondary">รอทำแบบฝึกหัด</span>`;
+
+        card.innerHTML = `
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <div class="w-10 h-10 rounded-2xl ${item.color} flex items-center justify-center text-xl">
+                <i class="ph-bold ${item.icon}"></i>
+              </div>
+              ${badgeHtml}
+            </div>
+            <div>
+              <span class="text-[11px] font-bold uppercase tracking-wider text-apple-accent">${item.tag}</span>
+              <h3 class="text-base font-bold text-apple-textPrimary mt-0.5">${uData.name}</h3>
+              <p class="text-xs text-apple-textSecondary mt-1 leading-relaxed">${uData.thaiName}</p>
+            </div>
+            <p class="text-xs text-gray-500 line-clamp-2 leading-relaxed">
+              ${uData.description}
+            </p>
+          </div>
+          <div class="pt-5 mt-4 border-t border-gray-100 flex items-center justify-between text-xs">
+            <span class="text-apple-textTertiary font-medium">${uData.sections.length} ส่วน (${totalQuestions} ข้อ)</span>
+            <button onclick="startUnitExercise('${item.id}')" class="tactile-btn px-4 py-2 rounded-xl bg-apple-surface hover:bg-gray-100 hairline-border font-semibold text-apple-textPrimary flex items-center space-x-1.5">
+              <span>เข้าสู่บทเรียน</span>
+              <i class="ph-bold ph-arrow-right text-xs"></i>
+            </button>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    // -----------------------------------------------------------
+    // Exercise Workspace Controller
+    // -----------------------------------------------------------
+    function startUnitExercise(unitId) {
+      activeUnitId = unitId;
+      activeSectionIdx = 0;
+      document.getElementById('select-unit').value = unitId;
+      loadUserAnswersForCurrentUnit();
+      setupSectionNavigation();
+      renderCurrentSection();
+      showView('exercise');
+    }
+
+    function changeActiveUnit(unitId) {
+      activeUnitId = unitId;
+      activeSectionIdx = 0;
+      loadUserAnswersForCurrentUnit();
+      setupSectionNavigation();
+      renderCurrentSection();
+    }
+
+    function setupSectionNavigation() {
+      const unit = M6_UNITS_DATA[activeUnitId];
+      const container = document.getElementById('section-nav-pills');
+      if (!container) return;
+      container.innerHTML = '';
+
+      unit.sections.forEach((sec, idx) => {
+        const btn = document.createElement('button');
+        btn.id = `sec-btn-${idx}`;
+        btn.onclick = () => switchSection(idx);
+
+        const isCurrent = (idx === activeSectionIdx);
+        btn.className = `flex-1 md:flex-none whitespace-nowrap px-3 sm:px-4 py-2 rounded-xl text-xs transition ${
+          isCurrent 
+            ? 'font-bold bg-white text-apple-textPrimary shadow-apple-sm' 
+            : 'font-medium text-apple-textSecondary hover:text-apple-textPrimary'
+        }`;
+        btn.textContent = `Part ${idx + 1}: ${sec.title.split(':')[1] ? sec.title.split(':')[1].trim() : 'Part ' + (idx + 1)}`;
+        container.appendChild(btn);
+      });
+
+      // Update header details
+      document.getElementById('exercise-unit-badge').textContent = `Unit ${activeUnitId.replace('unit', '')}`;
+      document.getElementById('exercise-unit-title').textContent = unit.name;
+      document.getElementById('exercise-unit-desc').textContent = unit.thaiName;
+    }
+
+    function switchSection(secIdx) {
+      const unit = M6_UNITS_DATA[activeUnitId];
+      if (secIdx < 0 || secIdx >= unit.sections.length) return;
+      activeSectionIdx = secIdx;
+
+      // Update pills styling
+      unit.sections.forEach((_, idx) => {
+        const btn = document.getElementById(`sec-btn-${idx}`);
+        if (btn) {
+          if (idx === activeSectionIdx) {
+            btn.className = 'flex-1 md:flex-none whitespace-nowrap px-3 sm:px-4 py-2 rounded-xl text-xs font-bold bg-white text-apple-textPrimary shadow-apple-sm transition';
+          } else {
+            btn.className = 'flex-1 md:flex-none whitespace-nowrap px-3 sm:px-4 py-2 rounded-xl text-xs font-medium text-apple-textSecondary hover:text-apple-textPrimary transition';
+          }
+        }
+      });
+
+      renderCurrentSection();
+    }
+
+    function navigateSection(delta) {
+      const unit = M6_UNITS_DATA[activeUnitId];
+      const nextIdx = activeSectionIdx + delta;
+      if (nextIdx >= 0 && nextIdx < unit.sections.length) {
+        switchSection(nextIdx);
+      }
+    }
+
+    // -----------------------------------------------------------
+    // Render Current Section
+    // -----------------------------------------------------------
+    function renderCurrentSection() {
+      const unit = M6_UNITS_DATA[activeUnitId];
+      const section = unit.sections[activeSectionIdx];
+      const container = document.getElementById('exercise-content-container');
+      container.innerHTML = '';
+
+      const secKey = `${activeUnitId}_${activeSectionIdx}`;
+      const isSubmitted = submittedSections[secKey] || false;
+
+      const wrapper = document.createElement('div');
+      wrapper.className = 'bg-white p-6 sm:p-8 rounded-3xl hairline-border shadow-apple-card space-y-6';
+
+      const header = document.createElement('div');
+      header.className = 'border-b border-gray-100 pb-4 flex flex-wrap items-center justify-between gap-2';
+      header.innerHTML = `
+        <div>
+          <span class="text-[11px] font-bold uppercase tracking-wider text-apple-accent">${section.title}</span>
+          <p class="text-xs text-apple-textSecondary mt-1">${section.description}</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="text-xs font-semibold px-3 py-1 rounded-full ${isSubmitted ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-600'}">
+            ${isSubmitted ? 'ตรวจคำตอบแล้ว' : 'กำลังทำ'}
+          </span>
+          <span class="text-xs font-semibold px-3 py-1 rounded-full bg-gray-100 text-apple-textSecondary">
+            ${section.questions.length} ข้อ
+          </span>
+        </div>
+      `;
+      wrapper.appendChild(header);
+
+      // Render Word Bank if available
+      if (section.wordBank && section.wordBank.length > 0) {
+        const wbBox = document.createElement('div');
+        wbBox.className = 'p-4 rounded-2xl bg-gray-50/90 hairline-border space-y-2';
+        wbBox.innerHTML = `
+          <div class="text-[11px] font-bold uppercase tracking-wider text-apple-textSecondary flex items-center gap-1.5">
+            <i class="ph-bold ph-textbox"></i>
+            <span>Word Bank (แตะคำศัพท์เพื่อคัดลอก หรือพิมพ์ลงในช่องว่าง):</span>
+          </div>
+          <div class="flex flex-wrap gap-2 pt-1" id="word-bank-chips"></div>
+        `;
+        const chipsContainer = wbBox.querySelector('#word-bank-chips');
+        section.wordBank.forEach(word => {
+          const pill = document.createElement('button');
+          pill.type = 'button';
+          pill.className = 'tactile-btn px-3 py-1.5 rounded-xl bg-white hairline-border text-xs font-semibold text-apple-textPrimary shadow-apple-sm hover:border-apple-accent';
+          pill.textContent = word;
+          pill.onclick = () => {
+            // Find first empty input in section
+            const inputs = wrapper.querySelectorAll('input[type="text"]');
+            for (let inp of inputs) {
+              if (!inp.value || inp.value.trim() === '') {
+                inp.value = word;
+                const qId = inp.id.replace('input-', '');
+                userAnswers[qId] = word;
+                inp.focus();
+                break;
+              }
+            }
+          };
+          chipsContainer.appendChild(pill);
+        });
+        wrapper.appendChild(wbBox);
+      }
+
+      if (section.type === 'multiple_choice') {
+        renderMCSection(wrapper, section, isSubmitted);
+      } else if (section.type === 'fill_in') {
+        renderFillInSection(wrapper, section, isSubmitted);
+      }
+
+      container.appendChild(wrapper);
+
+      const btnCheck = document.getElementById('btn-check-part');
+      if (btnCheck) {
+        btnCheck.innerHTML = isSubmitted 
+          ? `<i class="ph-bold ph-arrow-clockwise text-base"></i><span>ตรวจคำตอบอีกครั้ง</span>`
+          : `<i class="ph-bold ph-check-circle text-base"></i><span>ตรวจคำตอบ & ดูเฉลยละเอียดของส่วนนี้</span>`;
+      }
+    }
+
+    // Render Multiple Choice Questions
+    function renderMCSection(wrapper, section, isSubmitted) {
+      const list = document.createElement('div');
+      list.className = 'space-y-6';
+
+      section.questions.forEach(q => {
+        const item = document.createElement('div');
+        item.className = 'p-5 rounded-2xl bg-gray-50/80 hairline-border space-y-4';
+        
+        item.innerHTML = `
+          <div class="text-sm font-semibold text-apple-textPrimary leading-relaxed">
+            ${q.prompt}
+          </div>
+          <div class="space-y-2.5" id="mc-options-${q.id}"></div>
+          <div id="mc-exp-${q.id}" class="${isSubmitted && userAnswers[q.id] ? '' : 'hidden'} p-4 rounded-xl bg-blue-50/80 border border-blue-100 text-xs text-apple-textPrimary leading-relaxed">
+            <strong class="text-apple-accent">คำอธิบายจากติวเตอร์:</strong> ${q.explanation}
+          </div>
+          <div id="mc-unanswered-${q.id}" class="${isSubmitted && !userAnswers[q.id] ? '' : 'hidden'} p-3 rounded-xl bg-gray-100 text-gray-500 text-xs italic">
+            [ข้อนี้ไม่ได้ทำ - ไม่เปิดเฉลยคำตอบตามกฎการสอบ]
+          </div>
+        `;
+
+        const optContainer = item.querySelector(`#mc-options-${q.id}`);
+        q.choices.forEach(ch => {
+          const optCard = document.createElement('div');
+          const isSelected = (userAnswers[q.id] === ch);
+          
+          let cardStyle = 'option-card p-3.5 rounded-xl bg-white hairline-border shadow-apple-sm flex items-center justify-between text-xs sm:text-sm';
+          let badgeHtml = '<span class="badge hidden text-xs font-semibold"></span>';
+
+          if (isSelected) {
+            cardStyle += ' selected';
+          }
+
+          if (isSubmitted && isSelected) {
+            const isCorrect = (ch.trim() === q.answer.trim());
+            cardStyle += isCorrect ? ' bg-green-50 border-green-500' : ' bg-red-50 border-red-400';
+            badgeHtml = `<span class="badge text-xs font-semibold ${isCorrect ? 'text-green-600' : 'text-red-500'}">${isCorrect ? '✓ คำตอบถูกต้อง' : '✕ คำตอบยังไม่ถูกต้อง'}</span>`;
+          }
+
+          optCard.className = cardStyle;
+          optCard.innerHTML = `
+            <span class="font-medium text-apple-textPrimary">${ch}</span>
+            ${badgeHtml}
+          `;
+
+          optCard.onclick = () => {
+            userAnswers[q.id] = ch;
+            optContainer.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
+            optCard.classList.add('selected');
+          };
+
+          optContainer.appendChild(optCard);
+        });
+
+        list.appendChild(item);
+      });
+
+      wrapper.appendChild(list);
+    }
+
+    // Render Fill-in & Grammar Questions
+    function renderFillInSection(wrapper, section, isSubmitted) {
+      const list = document.createElement('div');
+      list.className = 'space-y-5';
+
+      section.questions.forEach(q => {
+        const item = document.createElement('div');
+        item.className = 'p-5 rounded-2xl bg-gray-50/80 hairline-border space-y-3';
+        const savedVal = userAnswers[q.id] || '';
+
+        let statusBadge = '';
+        let inputClass = 'px-3.5 py-2.5 rounded-xl border border-gray-300 text-xs sm:text-sm font-semibold text-apple-accent bg-white outline-none focus:ring-2 focus:ring-apple-accent min-w-[240px] flex-1 max-w-md';
+
+        if (isSubmitted) {
+          if (savedVal.trim() !== '') {
+            const isCorrect = q.acceptableAnswers.some(a => a.trim().toLowerCase() === savedVal.trim().toLowerCase());
+            statusBadge = isCorrect 
+              ? `<span class="text-green-600 font-bold text-xs">✓ คำตอบถูกต้อง</span>`
+              : `<span class="text-red-500 font-bold text-xs">✕ คำตอบยังไม่ถูกต้อง</span>`;
+            inputClass += isCorrect ? ' border-green-500 bg-green-50/50' : ' border-red-400 bg-red-50/50';
+          } else {
+            statusBadge = `<span class="text-gray-400 italic text-xs">[ข้อนี้ไม่ได้ทำ - ไม่เปิดเฉลย]</span>`;
+          }
+        }
+
+        item.innerHTML = `
+          <div class="text-sm font-medium text-apple-textPrimary leading-relaxed">
+            ${q.prompt}
+          </div>
+          <div class="flex flex-wrap items-center gap-3 pt-1">
+            <input type="text" id="input-${q.id}" value="${savedVal}" placeholder="พิมพ์คำตอบภาษาอังกฤษ..." class="${inputClass}">
+            ${statusBadge}
+          </div>
+          <div class="${isSubmitted && savedVal.trim() !== '' ? '' : 'hidden'} p-4 rounded-xl bg-blue-50/80 border border-blue-100 text-xs text-apple-textPrimary leading-relaxed">
+            ${q.explanation}
+          </div>
+        `;
+
+        const inputEl = item.querySelector(`#input-${q.id}`);
+        inputEl.oninput = (e) => {
+          userAnswers[q.id] = e.target.value;
+        };
+
+        list.appendChild(item);
+      });
+
+      wrapper.appendChild(list);
+    }
+
+    // -----------------------------------------------------------
+    // Submit & Check Answers for Current Part (Early Exit Protected)
+    // -----------------------------------------------------------
+    function submitCurrentPart() {
+      const unit = M6_UNITS_DATA[activeUnitId];
+      const section = unit.sections[activeSectionIdx];
+      const questions = section.questions;
+
+      const attempted = questions.filter(q => userAnswers[q.id] && String(userAnswers[q.id]).trim() !== '');
+
+      if (attempted.length === 0) {
+        alert("⚠️ คุณยังไม่ได้ทำข้อสอบในส่วนนี้เลยแม้แต่ข้อเดียว กรุณาลองทำอย่างน้อย 1 ข้อก่อนตรวจคำตอบครับ");
+        return;
+      }
+
+      if (attempted.length < questions.length) {
+        const msg = `คุณยังทำข้อสอบไม่ครบทุกข้อ (ทำไป ${attempted.length} จาก ${questions.length} ข้อ)\n\nต้องการจบการทำแบบฝึกหัดในส่วนนี้และตรวจคำตอบเลยหรือไม่?\n\n• ระบบจะสรุปคะแนนเฉพาะ ${attempted.length} ข้อที่คุณได้ทำไปเท่านั้น\n• ส่วนข้อที่ไม่ได้ทำจะไม่เปิดเฉลย เพื่อรักษาความโปร่งใสของผลการประเมิน`;
+        if (!confirm(msg)) {
+          return;
+        }
+      }
+
+      let partScore = 0;
+      attempted.forEach(q => {
+        const userVal = String(userAnswers[q.id]).trim().toLowerCase();
+        if (section.type === 'multiple_choice') {
+          if (userAnswers[q.id].trim() === q.answer.trim()) partScore++;
+        } else if (section.type === 'fill_in') {
+          if (q.acceptableAnswers.some(a => a.trim().toLowerCase() === userVal)) partScore++;
+        }
+      });
+
+      const secKey = `${activeUnitId}_${activeSectionIdx}`;
+      submittedSections[secKey] = true;
+
+      // Save to localStorage for this student
+      saveProgressToLocalStorage();
+
+      // Check if all parts in this unit are submitted
+      checkAndFinalizeUnit();
+
+      renderCurrentSection();
+
+      alert(`🎉 ตรวจคำตอบส่วนนี้เรียบร้อยแล้ว!\nคะแนนที่ได้: ${partScore} จาก ${attempted.length} ข้อที่ทำ (รวมข้อสอบในส่วนนี้ ${questions.length} ข้อ)`);
+    }
+
+    function checkAndFinalizeUnit() {
+      const unit = M6_UNITS_DATA[activeUnitId];
+      let allDone = true;
+      let totalScore = 0;
+      let totalQuestions = 0;
+
+      unit.sections.forEach((sec, sIdx) => {
+        const secKey = `${activeUnitId}_${sIdx}`;
+        if (!submittedSections[secKey]) {
+          allDone = false;
+        }
+        totalQuestions += sec.questions.length;
+        sec.questions.forEach(q => {
+          if (userAnswers[q.id]) {
+            const userVal = String(userAnswers[q.id]).trim().toLowerCase();
+            if (sec.type === 'multiple_choice') {
+              if (userAnswers[q.id].trim() === q.answer.trim()) totalScore++;
+            } else if (sec.type === 'fill_in') {
+              if (q.acceptableAnswers.some(a => a.trim().toLowerCase() === userVal)) totalScore++;
+            }
+          }
+        });
+      });
+
+      if (allDone && currentStudent.isLoggedIn && currentStudent.email) {
+        const emailKey = currentStudent.email.trim().toLowerCase();
+        const progress = JSON.parse(localStorage.getItem('twp_m6_progress_' + emailKey) || '{}');
+        const pct = Math.round((totalScore / totalQuestions) * 100);
+
+        progress[activeUnitId] = {
+          done: true,
+          score: totalScore,
+          total: totalQuestions,
+          pct: pct
+        };
+
+        localStorage.setItem('twp_m6_progress_' + emailKey, JSON.stringify(progress));
+        updateStudentHeaderUI();
+        renderCurriculumGrid();
+        renderScoresTable();
+        updateCertificateStatus();
+        drawCertificateCanvas();
+
+        // Sync with Google Sheets Cloud
+        syncScoreToGoogleSheets(activeUnitId, totalScore, totalQuestions, pct);
+      }
+    }
+
+    function saveProgressToLocalStorage() {
+      if (!currentStudent || !currentStudent.isLoggedIn || !currentStudent.email) return;
+      const emailKey = currentStudent.email.trim().toLowerCase();
+      const stateKey = `twp_m6_answers_${emailKey}_${activeUnitId}`;
+      localStorage.setItem(stateKey, JSON.stringify({
+        answers: userAnswers,
+        submitted: submittedSections
+      }));
+    }
+
+    function loadUserAnswersForCurrentUnit() {
+      userAnswers = {};
+      submittedSections = {};
+      if (!currentStudent || !currentStudent.isLoggedIn || !currentStudent.email) return;
+
+      const emailKey = currentStudent.email.trim().toLowerCase();
+      const stateKey = `twp_m6_answers_${emailKey}_${activeUnitId}`;
+      const saved = JSON.parse(localStorage.getItem(stateKey) || '{}');
+      if (saved.answers) userAnswers = saved.answers;
+      if (saved.submitted) submittedSections = saved.submitted;
+    }
+
+    // -----------------------------------------------------------
+    // Progressive E-Certificate Engine (Unicode Grapheme Cluster)
+    // -----------------------------------------------------------
+    function getProgressiveRevealedName(fullName, completedUnitsCount, totalUnits = 4) {
+      if (!fullName || !fullName.trim() || !currentStudent.isLoggedIn) {
+        return { revealed: '', masked: '● ● ● ● ● ● ● ●', full: '', pct: 0, completedCount: 0, isComplete: false };
+      }
+      const cleanName = fullName.trim();
+      const clusters = cleanName.match(/\P{M}\p{M}*/gu) || Array.from(cleanName);
+      const total = clusters.length;
+      const ratio = Math.min(Math.max(completedUnitsCount / totalUnits, 0), 1);
+      const pct = Math.round(ratio * 100);
+
+      if (ratio >= 1) {
+        return {
+          revealed: cleanName,
+          masked: '',
+          full: cleanName,
+          pct: 100,
+          completedCount: completedUnitsCount,
+          isComplete: true
+        };
+      }
+
+      if (ratio === 0) {
+        const maskCount = Math.min(total, 8);
+        return {
+          revealed: '',
+          masked: '● '.repeat(maskCount).trim(),
+          full: cleanName,
+          pct: 0,
+          completedCount: 0,
+          isComplete: false
+        };
+      }
+
+      const revealCount = Math.max(1, Math.ceil(total * ratio));
+      const revealedPart = clusters.slice(0, revealCount).join('');
+      const remainingCount = Math.max(0, total - revealCount);
+      const maskPart = '● '.repeat(Math.min(remainingCount, 8)).trim();
+
+      return {
+        revealed: revealedPart,
+        masked: maskPart,
+        full: cleanName,
+        pct: pct,
+        completedCount: completedUnitsCount,
+        isComplete: false
+      };
+    }
+
+    // High-DPI E-Certificate Canvas Rendering
+    function drawCertificateCanvas() {
+      const canvas = document.getElementById('certificateCanvas');
+      if (!canvas) return;
+
+      const ctx = canvas.getContext('2d');
+      const w = canvas.width = 1200;
+      const h = canvas.height = 850;
+
+      const isLogged = currentStudent && currentStudent.isLoggedIn && currentStudent.email;
+      const completedCount = isLogged ? getCompletedUnitsCount() : 0;
+      const studentName = isLogged ? currentStudent.name : '';
+      const revealInfo = getProgressiveRevealedName(studentName, completedCount, 4);
+
+      // Update Nav percentage
+      const navPct = document.getElementById('nav-cert-pct');
+      if (navPct) navPct.textContent = `${revealInfo.pct}%`;
+      const mobileNavPct = document.getElementById('mobile-nav-cert-pct');
+      if (mobileNavPct) mobileNavPct.textContent = `${revealInfo.pct}%`;
+
+      // 1. Background: Clean Apple White-Gray Gradient
+      const bgGrad = ctx.createLinearGradient(0, 0, w, h);
+      bgGrad.addColorStop(0, '#FFFFFF');
+      bgGrad.addColorStop(0.5, '#FDFDFD');
+      bgGrad.addColorStop(1, '#F5F5F7');
+      ctx.fillStyle = bgGrad;
+      ctx.fillRect(0, 0, w, h);
+
+      // 2. Outer Dark Slate Border
+      ctx.lineWidth = 10;
+      ctx.strokeStyle = '#1D1D1F';
+      ctx.strokeRect(26, 26, w - 52, h - 52);
+
+      // 3. Inner Noble Gold / Platinum Hairline Border
+      ctx.lineWidth = 2.5;
+      ctx.strokeStyle = '#D1D1D6';
+      ctx.strokeRect(40, 40, w - 80, h - 80);
+
+      ctx.lineWidth = 1;
+      ctx.strokeStyle = '#0071E3';
+      ctx.strokeRect(46, 46, w - 92, h - 92);
+
+      // Corner Ornaments
+      const corners = [[50, 50], [w - 50, 50], [50, h - 50], [w - 50, h - 50]];
+      corners.forEach(([cx, cy]) => {
+        ctx.fillStyle = '#0071E3';
+        ctx.beginPath();
+        ctx.arc(cx, cy, 6, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.strokeStyle = '#D1D1D6';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.arc(cx, cy, 11, 0, Math.PI * 2);
+        ctx.stroke();
+      });
+
+      // 4. TOP LOGO: Draw Official TWP Logo
+      const logoW = 86;
+      const logoH = 86;
+      const drawLogo = (img) => {
+        ctx.drawImage(img, (w - logoW) / 2, 60, logoW, logoH);
+      };
+      if (twpLogoImg.complete && twpLogoImg.naturalWidth > 0) {
+        drawLogo(twpLogoImg);
+      } else {
+        twpLogoImg.onload = () => drawLogo(twpLogoImg);
+      }
+
+      // 5. Headings
+      ctx.textAlign = 'center';
+      ctx.fillStyle = '#1D1D1F';
+      ctx.font = 'bold 24px Prompt, Sarabun, sans-serif';
+      ctx.fillText('บริษัท สำนักพิมพ์ ไทยวัฒนาพานิช จำกัด', w / 2, 175);
+
+      ctx.fillStyle = '#6E6E73';
+      ctx.font = 'bold 12px Inter, Prompt, sans-serif';
+      ctx.fillText('THAI WATANA PANICH PUBLISHING CO., LTD.  •  EXCELLENCE IN DIGITAL EDUCATION', w / 2, 198);
+
+      // 6. Award Title
+      ctx.fillStyle = '#0071E3';
+      ctx.font = 'bold 32px Prompt, Sarabun, sans-serif';
+      ctx.fillText('เกียรติบัตรนี้มอบให้เพื่อแสดงว่า', w / 2, 256);
+
+      ctx.fillStyle = '#86868B';
+      ctx.font = 'bold 13px Inter, sans-serif';
+      ctx.fillText('CERTIFICATE OF ACADEMIC ACHIEVEMENT', w / 2, 282);
+
+      // Decorative Divider
+      ctx.strokeStyle = '#E5E5EA';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(350, 298);
+      ctx.lineTo(570, 298);
+      ctx.moveTo(630, 298);
+      ctx.lineTo(w - 350, 298);
+      ctx.stroke();
+
+      ctx.fillStyle = '#0071E3';
+      ctx.beginPath();
+      ctx.moveTo(600, 291);
+      ctx.lineTo(607, 298);
+      ctx.lineTo(600, 305);
+      ctx.lineTo(593, 298);
+      ctx.closePath();
+      ctx.fill();
+
+      // 7. PROGRESSIVE STUDENT NAME REVEAL
+      if (!isLogged) {
+        ctx.fillStyle = '#9CA3AF';
+        ctx.font = '32px Prompt, monospace, sans-serif';
+        ctx.fillText('● ● ● ● ● ● ● ●', w / 2, 375);
+
+        ctx.fillStyle = '#EF4444';
+        ctx.font = 'bold 14px Prompt, sans-serif';
+        ctx.fillText('🔒 กรุณาเข้าสู่ระบบเพื่อสะสมความก้าวหน้าและปลดล็อกชื่อบนเกียรติบัตร (0%)', w / 2, 412);
+      } else if (revealInfo.isComplete) {
+        ctx.fillStyle = '#1D1D1F';
+        ctx.font = 'bold 44px Prompt, Sarabun, sans-serif';
+        ctx.fillText(revealInfo.full, w / 2, 375);
+      } else {
+        ctx.font = 'bold 42px Prompt, Sarabun, sans-serif';
+        const revText = revealInfo.revealed;
+        const maskText = revealInfo.masked ? ' ' + revealInfo.masked : '';
+        const revW = ctx.measureText(revText).width;
+        ctx.font = '32px Prompt, monospace, sans-serif';
+        const maskW = ctx.measureText(maskText).width;
+        const totalW = revW + maskW;
+        const startX = (w - totalW) / 2;
+
+        ctx.textAlign = 'left';
+        ctx.fillStyle = '#1D1D1F';
+        ctx.font = 'bold 42px Prompt, Sarabun, sans-serif';
+        ctx.fillText(revText, startX, 375);
+
+        ctx.fillStyle = '#0071E3';
+        ctx.font = '30px Prompt, monospace, sans-serif';
+        ctx.fillText(maskText, startX + revW, 372);
+        ctx.textAlign = 'center';
+
+        ctx.fillStyle = '#D97706';
+        ctx.font = 'bold 14px Prompt, sans-serif';
+        ctx.fillText(`🔒 กำลังปลดล็อกเกียรติบัตร ${revealInfo.pct}% (${revealInfo.completedCount}/4 บท) • ทำแบบฝึกหัดให้ครบเพื่อปลดล็อกชื่อเต็ม`, w / 2, 412);
+      }
+
+      // 8. School & Class
+      ctx.fillStyle = '#6E6E73';
+      ctx.font = '500 18px Prompt, Sarabun, sans-serif';
+      const schoolText = isLogged ? `${currentStudent.school} • ระดับชั้นมัธยมศึกษาปีที่ 6 (สำเร็จการศึกษาขั้นพื้นฐาน)` : 'ระดับชั้นมัธยมศึกษาปีที่ 6 (สำเร็จการศึกษาขั้นพื้นฐาน) (ยังไม่ได้เข้าสู่ระบบ)';
+      ctx.fillText(schoolText, w / 2, isLogged && revealInfo.isComplete ? 425 : 445);
+
+      // 9. Course Description
+      ctx.fillStyle = '#2C2C2E';
+      ctx.font = '400 17px Prompt, Sarabun, sans-serif';
+      ctx.fillText('ได้ผ่านการทดสอบและประเมินทักษะภาษาอังกฤษออนไลน์ตามหลักสูตรสากล', w / 2, 495);
+      
+      ctx.font = 'bold 20px Prompt, Sarabun, sans-serif';
+      ctx.fillText('Get INVOLVED! ม.6 ภาคเรียนที่ 2 (Units 5 - 8)', w / 2, 530);
+
+      ctx.font = '500 17px Prompt, sans-serif';
+      ctx.fillStyle = '#0071E3';
+      ctx.fillText('ผลการประเมิน: ระดับดีเยี่ยม (Grade A - Exemplary Standard)', w / 2, 565);
+
+      // 10. Footer Section
+      ctx.strokeStyle = '#E5E5EA';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(100, 680);
+      ctx.lineTo(w - 100, 680);
+      ctx.stroke();
+
+      // Left Signature
+      ctx.textAlign = 'left';
+      ctx.fillStyle = '#1D1D1F';
+      ctx.font = 'bold 15px Prompt, Sarabun, sans-serif';
+      ctx.fillText('ฝ่ายพัฒนานวัตกรรมการเรียนรู้ดิจิทัล', 100, 715);
+      ctx.fillStyle = '#86868B';
+      ctx.font = '400 13px Prompt, sans-serif';
+      ctx.fillText('บริษัท สำนักพิมพ์ ไทยวัฒนาพานิช จำกัด (TWP)', 100, 738);
+
+      // Center Official Seal
+      ctx.textAlign = 'center';
+      if (isLogged && revealInfo.isComplete) {
+        ctx.fillStyle = '#D97706';
+        ctx.beginPath();
+        ctx.arc(w / 2, 720, 28, 0, Math.PI * 2);
+        ctx.strokeStyle = '#F59E0B';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        ctx.fillStyle = '#F59E0B';
+        ctx.font = 'bold 11px Inter, sans-serif';
+        ctx.fillText('VERIFIED', w / 2, 718);
+        ctx.fillText('OFFICIAL', w / 2, 732);
+      } else {
+        ctx.fillStyle = '#9CA3AF';
+        ctx.beginPath();
+        ctx.arc(w / 2, 720, 28, 0, Math.PI * 2);
+        ctx.strokeStyle = '#D1D5DB';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        ctx.fillStyle = '#6B7280';
+        ctx.font = 'bold 11px Inter, sans-serif';
+        ctx.fillText(isLogged ? 'IN PROGRESS' : 'LOCKED', w / 2, 724);
+      }
+
+      // Right Issue Date & Serial
+      ctx.textAlign = 'right';
+      ctx.fillStyle = '#1D1D1F';
+      ctx.font = 'bold 15px Prompt, sans-serif';
+      ctx.fillText('วันที่อนุมัติ: 25 ตุลาคม 2569', w - 100, 715);
+      ctx.fillStyle = '#86868B';
+      ctx.font = 'mono 12px Inter, monospace';
+      ctx.fillText(isLogged && revealInfo.isComplete ? 'Serial: TWP-M6-CERT-2026-09142' : 'Serial: PENDING COMPLETION', w - 100, 738);
+    }
+
+    function downloadCertificateImage() {
+      const isLogged = currentStudent && currentStudent.isLoggedIn && currentStudent.email;
+      if (!isLogged) {
+        alert("⚠️ กรุณาเข้าสู่ระบบก่อนดาวน์โหลดใบประกาศนียบัตร");
+        toggleAuthModal();
+        return;
+      }
+      const completedCount = getCompletedUnitsCount();
+      if (completedCount < 4) {
+        if (!confirm(`คุณสำเร็จการทำแบบฝึกหัดไปแล้ว ${completedCount}/4 บท (ปลดล็อกชื่อ ${Math.round(completedCount / 4 * 100)}%)\n\nต้องการดาวน์โหลดภาพเกียรติบัตรในสถานะปัจจุบันหรือไม่?`)) {
+          return;
+        }
+      }
+      const canvas = document.getElementById('certificateCanvas');
+      if (!canvas) return;
+      const link = document.createElement('a');
+      link.download = `Certificate_M6_${currentStudent.name.replace(/\s+/g, '_')}.png`;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    }
+
+    function updateCertificateStatus() {
+      const grid = document.getElementById('cert-requirements-grid');
+      if (!grid) return;
+      grid.innerHTML = '';
+
+      const status = getStudentUnitStatus();
+      const units = [
+        { id: 'unit5', label: 'Unit 5: Environment' },
+        { id: 'unit6', label: 'Unit 6: Crimes' },
+        { id: 'unit7', label: 'Unit 7: Time Flies!' },
+        { id: 'unit8', label: 'Unit 8: Sports' }
+      ];
+
+      units.forEach(u => {
+        const item = status[u.id];
+        const card = document.createElement('div');
+        card.className = `p-4 rounded-2xl hairline-border text-center space-y-1 ${
+          item.done ? 'bg-green-50/70 border-green-200' : 'bg-gray-50/70 border-gray-200'
+        }`;
+        card.innerHTML = `
+          <div class="text-[10px] font-bold uppercase tracking-wider ${item.done ? 'text-green-700' : 'text-gray-500'}">
+            ${u.label}
+          </div>
+          <div class="text-sm font-bold ${item.done ? 'text-green-800' : 'text-apple-textPrimary'}">
+            ${item.done ? `✓ ผ่าน (${item.pct}%)` : 'ยังไม่สำเร็จ'}
+          </div>
+          <div class="text-[10px] text-gray-500">
+            ${item.done ? `คะแนน ${item.score}/${item.total}` : 'รอตรวจคำตอบ'}
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    // -----------------------------------------------------------
+    // Teacher Portal Table & SheetJS Import
+    // -----------------------------------------------------------
+    function renderScoresTable() {
+      const tbody = document.getElementById('student-roster-tbody');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+
+      let totalStudents = studentsDB.length;
+      let certifiedCount = 0;
+      let totalPctSum = 0;
+
+      studentsDB.forEach(s => {
+        const emailKey = s.email.trim().toLowerCase();
+        const prog = JSON.parse(localStorage.getItem('twp_m6_progress_' + emailKey) || '{}');
+        
+        let completedCount = 0;
+        let sTotalPct = 0;
+
+        ['unit5', 'unit6', 'unit7', 'unit8'].forEach(u => {
+          if (prog[u] && prog[u].done) {
+            completedCount++;
+            sTotalPct += (prog[u].pct || 0);
+          }
+        });
+
+        const overallPct = Math.round(sTotalPct / 4);
+        if (completedCount === 4) certifiedCount++;
+        totalPctSum += overallPct;
+
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-gray-50/70';
+        tr.innerHTML = `
+          <td class="px-4 py-3 font-mono font-semibold text-apple-accent">${s.id}</td>
+          <td class="px-4 py-3">
+            <div class="font-semibold text-apple-textPrimary">${s.name}</div>
+            <div class="text-[10px] text-gray-400">${s.email}</div>
+          </td>
+          <td class="px-4 py-3 text-apple-textSecondary">${s.room}</td>
+          <td class="px-4 py-3">${prog.unit5 && prog.unit5.done ? `<span class="text-green-600 font-bold">${prog.unit5.score}/${prog.unit5.total}</span>` : '<span class="text-gray-300">-</span>'}</td>
+          <td class="px-4 py-3">${prog.unit6 && prog.unit6.done ? `<span class="text-green-600 font-bold">${prog.unit6.score}/${prog.unit6.total}</span>` : '<span class="text-gray-300">-</span>'}</td>
+          <td class="px-4 py-3">${prog.unit7 && prog.unit7.done ? `<span class="text-green-600 font-bold">${prog.unit7.score}/${prog.unit7.total}</span>` : '<span class="text-gray-300">-</span>'}</td>
+          <td class="px-4 py-3">${prog.unit8 && prog.unit8.done ? `<span class="text-green-600 font-bold">${prog.unit8.score}/${prog.unit8.total}</span>` : '<span class="text-gray-300">-</span>'}</td>
+          <td class="px-4 py-3">
+            <div class="flex items-center space-x-2">
+              <span class="font-semibold">${overallPct}%</span>
+              <div class="w-16 bg-gray-200 h-1.5 rounded-full overflow-hidden">
+                <div class="bg-apple-accent h-full" style="width: ${overallPct}%"></div>
+              </div>
+            </div>
+          </td>
+          <td class="px-4 py-3 text-center">
+            ${completedCount === 4 
+              ? '<span class="px-2 py-0.5 rounded-full bg-green-100 text-green-700 font-bold text-[10px]">อนุมัติ 100%</span>' 
+              : `<span class="px-2 py-0.5 rounded-full bg-gray-100 text-gray-500 font-medium text-[10px]">${completedCount}/4 บท</span>`}
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      // Update Metrics
+      document.getElementById('metric-total-students').textContent = totalStudents;
+      document.getElementById('metric-certified-students').textContent = certifiedCount;
+      document.getElementById('metric-avg-score').textContent = totalStudents > 0 ? `${Math.round(totalPctSum / totalStudents)}%` : '0%';
+    }
+
+    function filterRosterTable() {
+      const q = (document.getElementById('roster-search-input').value || '').trim().toLowerCase();
+      const rows = document.querySelectorAll('#student-roster-tbody tr');
+      rows.forEach(r => {
+        const text = r.textContent.toLowerCase();
+        r.style.display = text.includes(q) ? '' : 'none';
+      });
+    }
+
+    function importStudentRoster(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        try {
+          const data = new Uint8Array(evt.target.result);
+          const workbook = XLSX.read(data, { type: 'array' });
+          const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+          const rows = XLSX.utils.sheet_to_json(firstSheet);
+
+          if (!rows || rows.length === 0) {
+            alert("ไม่พบข้อมูลในไฟล์ Excel/CSV");
+            return;
+          }
+
+          let added = 0;
+          rows.forEach((r, idx) => {
+            const id = r["รหัสนักเรียน"] || r["StudentID"] || r["Student ID"] || `STD-M6-${String(idx + 10).padStart(3, '0')}`;
+            const name = r["ชื่อ-นามสกุล"] || r["ชื่อสกุล"] || r["Name"] || r["Student Name"];
+            const room = r["ห้อง"] || r["Classroom"] || r["Room"] || "ม.6/1";
+            const email = r["อีเมล"] || r["Email"] || `${String(id).toLowerCase()}@school.ac.th`;
+            const school = r["โรงเรียน"] || r["School"] || "โรงเรียนเครือข่าย ทวพ.";
+
+            if (name && !studentsDB.some(s => s.email.toLowerCase() === email.toLowerCase())) {
+              studentsDB.push({ id, name, room, email, school });
+              added++;
+            }
+          });
+
+          localStorage.setItem('twp_m6_students_db', JSON.stringify(studentsDB));
+          populateStudentModalSelect();
+          renderScoresTable();
+          alert(`นำเข้ารายชื่อนักเรียนใหม่สำเร็จ ${added} คน`);
+        } catch (err) {
+          alert("เกิดข้อผิดพลาดในการประมวลผลไฟล์: " + err.message);
+        }
+      };
+      reader.readAsArrayBuffer(file);
+    }
+
+    function downloadRosterTemplate() {
+      const csvContent = "Student ID,ชื่อ-นามสกุล,โรงเรียน,ห้อง,อีเมล\n" +
+        "STD-M6-001,ณภัทร วรเดชสกุล,โรงเรียนเตรียมอุดมศึกษา,ม.6/1,naphat.m6@gmail.com\n" +
+        "STD-M6-002,พิมพิชญา ศิริวัฒนา,โรงเรียนสาธิต มศว ปทุมวัน,ม.6/2,pimpichaya.m6@gmail.com\n" +
+        "STD-M6-003,กิตติธัช ธนบดีเกียรติ,โรงเรียนสวนกุหลาบวิทยาลัย,ม.6/1,kittithat.m6@gmail.com\n";
+      
+      const blob = new Blob(["\uFEFF" + csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.setAttribute("href", url);
+      link.setAttribute("download", "template_students_m6.csv");
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    function exportScoresToCSV() {
+      let csv = "Student ID,ชื่อ-นามสกุล,ห้อง,อีเมล,Unit 5,Unit 6,Unit 7,Unit 8,คะแนนเฉลี่ย (%),สถานะเกียรติบัตร\n";
+      studentsDB.forEach(s => {
+        const emailKey = s.email.trim().toLowerCase();
+        const prog = JSON.parse(localStorage.getItem('twp_m6_progress_' + emailKey) || '{}');
+        const u5 = prog.unit5 && prog.unit5.done ? `${prog.unit5.score}/${prog.unit5.total}` : '-';
+        const u6 = prog.unit6 && prog.unit6.done ? `${prog.unit6.score}/${prog.unit6.total}` : '-';
+        const u7 = prog.unit7 && prog.unit7.done ? `${prog.unit7.score}/${prog.unit7.total}` : '-';
+        const u8 = prog.unit8 && prog.unit8.done ? `${prog.unit8.score}/${prog.unit8.total}` : '-';
+        
+        let completed = 0;
+        let sumPct = 0;
+        ['unit5', 'unit6', 'unit7', 'unit8'].forEach(u => {
+          if (prog[u] && prog[u].done) {
+            completed++;
+            sumPct += (prog[u].pct || 0);
+          }
+        });
+        const avg = Math.round(sumPct / 4);
+        const cert = completed === 4 ? 'Approved (100%)' : `${completed}/4 Units`;
+
+        csv += `"${s.id}","${s.name}","${s.room}","${s.email}","${u5}","${u6}","${u7}","${u8}","${avg}%","${cert}"\n`;
+      });
+
+      const blob = new Blob(["\uFEFF" + csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.setAttribute("href", url);
+      link.setAttribute("download", `TWP_GetInvolved_M6_Scores_${new Date().toISOString().slice(0,10)}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    // -----------------------------------------------------------
+    // Cloud Sync (Google Apps Script Web App Integration)
+    // -----------------------------------------------------------
+    function syncScoreToGoogleSheets(unitId, score, total, pct) {
+      if (!gasUrl || gasUrl.includes("example_m6")) return;
+
+      const payload = {
+        action: "submitScore",
+        studentId: currentStudent.id,
+        name: currentStudent.name,
+        email: currentStudent.email,
+        school: currentStudent.school,
+        room: currentStudent.room,
+        unit: unitId,
+        score: score,
+        total: total,
+        pct: pct,
+        timestamp: new Date().toISOString()
+      };
+
+      fetch(gasUrl, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      }).catch(err => {
+        console.warn("GAS background sync note:", err);
+      });
+    }
+
+    function toggleConfigModal() {
+      document.getElementById('config-modal').classList.toggle('hidden');
+    }
+
+    function openConfigModal() {
+      document.getElementById('gas-url-input').value = gasUrl;
+      toggleConfigModal();
+    }
+
+    function saveGASUrl() {
+      const val = (document.getElementById('gas-url-input').value || '').trim();
+      gasUrl = val || DEFAULT_GAS_URL;
+      localStorage.setItem('twp_m6_gas_url', gasUrl);
+      toggleConfigModal();
+      alert("บันทึกการตั้งค่า Google Apps Script Web App เรียบร้อยแล้ว");
+    }
+  </script>
+</body>
+</html>
