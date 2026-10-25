@@ -56,7 +56,7 @@ const M6_UNITS_DATA = {
       },
       {
         "title": "Part 2: Vocabulary & Prefixes",
-        "description": "Complete the sentences with the correct Prefix (dis-, im-, in-, ir-, un-, re-, mis-). (เติม Prefix ลงในช่องว่างหน้าคำศัพท์)",
+        "description": "Complete the sentences with the correct Prefix (dis-, im-, in-, ir-, un-, re-, mis-). (เลือกเติม Prefix จากเมนู Dropdown ลงในช่องว่างหน้าคำศัพท์)",
         "type": "fill_in",
         "wordBank": ["dis-", "im-", "in-", "ir-", "un-", "re-", "mis-"],
         "questions": [
@@ -219,7 +219,7 @@ const M6_UNITS_DATA = {
       },
       {
         "title": "Part 2: Vocabulary & Word Families",
-        "description": "Complete the sentences using the words in the box. (เติมคำศัพท์เกี่ยวกับความท้าทายลงในช่องว่าง)",
+        "description": "Complete the sentences using the words in the box. (เลือกเติมคำศัพท์เกี่ยวกับความท้าทายจากเมนู Dropdown ลงในช่องว่าง)",
         "type": "fill_in",
         "wordBank": ["contestant", "audition", "comfort zone", "rival", "overcome"],
         "questions": [
@@ -394,7 +394,7 @@ const M6_UNITS_DATA = {
       },
       {
         "title": "Part 2: Vocabulary & Expressions with 'make' and 'do'",
-        "description": "Complete the sentences with the correct words or phrases from the box. (เติมคำหรือสำนวนที่ถูกต้องลงในช่องว่าง)",
+        "description": "Complete the sentences with the correct words or phrases from the box. (เลือกเติมคำหรือสำนวนที่ถูกต้องจากเมนู Dropdown ลงในช่องว่าง)",
         "type": "fill_in",
         "wordBank": ["sign up for", "recharge your batteries", "do without", "make sure", "put your feet up"],
         "questions": [
@@ -557,7 +557,7 @@ const M6_UNITS_DATA = {
       },
       {
         "title": "Part 2: Vocabulary & Phrasal Verbs",
-        "description": "Complete the sentences using the phrasal verbs in the box. (เติมคำกริยาวลีลงในช่องว่าง)",
+        "description": "Complete the sentences using the phrasal verbs in the box. (เลือกเติมคำกริยาวลีจากเมนู Dropdown ลงในช่องว่าง)",
         "type": "fill_in",
         "wordBank": ["set up", "catch on", "come up with", "stick to", "get used to"],
         "questions": [
