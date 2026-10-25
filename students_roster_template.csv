@@ -1,6 +1,6 @@
-Student ID,ชื่อ-นามสกุล,โรงเรียน,ระดับชั้น,ห้อง,อีเมล (Email)
-STD-M6-001,ณภัทร วรเดชสกุล,โรงเรียนเตรียมอุดมศึกษา,ม.6,1,naphat.m6@gmail.com
-STD-M6-002,พิมพิชญา ศิริวัฒนา,โรงเรียนสาธิต มศว ปทุมวัน,ม.6,2,pimpichaya.m6@gmail.com
-STD-M6-003,กิตติธัช ธนบดีเกียรติ,โรงเรียนสวนกุหลาบวิทยาลัย,ม.6,1,kittithat.m6@gmail.com
-STD-M6-004,อภิญญา วงศ์ปรีชา,โรงเรียนบดินทรเดชา (สิงห์ สิงหเสนี),ม.6,3,apinya.m6@gmail.com
-STD-M6-005,วรเมธ รัตนเกียรติ,โรงเรียนกรุงเทพคริสเตียนวิทยาลัย,ม.6,2,worameth.m6@gmail.com
+Student ID,ชื่อ-นามสกุล (ไทย),Full Name (English),โรงเรียน,ระดับชั้น,ห้อง,อีเมล (Email)
+STD-M6-001,ณภัทร วรเดชสกุล,Naphat Voradechsakul,โรงเรียนเตรียมอุดมศึกษา,ม.6,1,naphat.m6@gmail.com
+STD-M6-002,พิมพิชญา ศิริวัฒนา,Pimpichaya Siriwattana,โรงเรียนสาธิต มศว ปทุมวัน,ม.6,2,pimpichaya.m6@gmail.com
+STD-M6-003,กิตติธัช ธนบดีเกียรติ,Kittithat Thanabodeekiat,โรงเรียนสวนกุหลาบวิทยาลัย,ม.6,1,kittithat.m6@gmail.com
+STD-M6-004,อภิญญา วงศ์ปรีชา,Apinya Wongpreecha,โรงเรียนบดินทรเดชา (สิงห์ สิงหเสนี),ม.6,3,apinya.m6@gmail.com
+STD-M6-005,วรเมธ รัตนเกียรติ,Worameth Rattanakiat,โรงเรียนกรุงเทพคริสเตียนวิทยาลัย,ม.6,2,worameth.m6@gmail.com

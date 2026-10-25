@@ -2,16 +2,16 @@
  * =========================================================================
  * Google Apps Script for Get INVOLVED! M.6 Online Exercise & E-Certificate System
  * ระบบแบบฝึกหัดออนไลน์และออกเกียรติบัตรอิเล็กทรอนิกส์ Get INVOLVED! ม.6 (ทวพ. - TWP)
- * เวอร์ชัน 2.0 (High School University-Prep Edition & Robust Safe-Sync)
+ * เวอร์ชัน 2.5 (High School University-Prep Edition with Email-Auth & Bilingual Certs)
  * ฐานข้อมูล Google Sheets: TWP_GetInvolved_M6_Database
  * =========================================================================
  * 
- * สถาปัตยกรรมระบบและการป้องกันข้อผิดพลาดที่ถอดบทเรียนจาก ม.1 - ม.5:
- * 1. LockService: ล็อคสเปรดชีตชั่วคราวขณะเขียนข้อมูล ป้องกันข้อมูลชนกัน (Race Conditions) จากนักเรียนส่งพร้อมกัน
- * 2. Text Formatting Guard: บังคับคอลัมน์รหัสนักเรียนเป็นรูปแบบข้อความ (@) ป้องกันศูนย์นำหน้าหาย
- * 3. Case-Insensitive & Sanitized Keys: อีเมลถูกแปลงเป็น .trim().toLowerCase() ทุกจุด
- * 4. Auto-Schema Self-Healing: หากชีตหรือหัวคอลัมน์ยังไม่ครบ ระบบจะสร้างและเติมให้อัตโนมัติ ไม่เกิด Error ขัดข้อง
- * 5. CORS & JSON Delivery: รองรับการร้องขอข้ามโดเมนจาก GitHub Pages และ Localhost อย่างเสถียร
+ * สถาปัตยกรรมระบบและการป้องกันข้อผิดพลาด:
+ * 1. Email-Based Identity Verification: ใช้อีเมลเป็นคีย์หลักในการตรวจสอบและยืนยันตัวตนเข้าระบบ
+ * 2. Bilingual Certificate Name System: รองรับชื่อ-นามสกุลจริงทั้งภาษาไทยและภาษาอังกฤษสำหรับการออกเกียรติบัตร
+ * 3. Student Note Support: บันทึกข้อความและคำถามที่นักเรียนขอคำแนะนำจากคุณครู
+ * 4. LockService: ล็อคสเปรดชีตชั่วคราวขณะเขียนข้อมูล ป้องกันข้อมูลชนกัน (Race Conditions)
+ * 5. Text Formatting Guard: บังคับคอลัมน์รหัสนักเรียนและอีเมลเป็นข้อความ (@) ป้องกันศูนย์นำหน้าหาย
  * =========================================================================
  */
 
@@ -40,26 +40,28 @@ function onOpen() {
 function setupAllSheets() {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
 
-  // 1. ชีต Students_DB (ฐานข้อมูลนักเรียน ม.6)
+  // 1. ชีต Students_DB (ฐานข้อมูลนักเรียน ม.6 พร้อมชื่อไทยและอังกฤษ)
   let studentSheet = ss.getSheetByName(SHEET_STUDENTS);
   if (!studentSheet) {
     studentSheet = ss.insertSheet(SHEET_STUDENTS);
   }
   studentSheet.clear();
   const studentHeaders = [
-    "Student ID", "ชื่อ-นามสกุล", "โรงเรียน", "ระดับชั้น", "ห้อง", 
-    "อีเมล (Email)", "รหัสผ่าน (Password)", "สถานะ (Status)", "วันที่ลงทะเบียน"
+    "Student ID", "ชื่อ-นามสกุล (ไทย)", "Full Name (English)", "โรงเรียน", "ระดับชั้น", "ห้อง", 
+    "อีเมล (Email)", "สถานะ (Status)", "วันที่ลงทะเบียน"
   ];
   studentSheet.appendRow(studentHeaders);
   formatHeaderRow(studentSheet, "#1D1D1F", "#FFFFFF");
   studentSheet.getRange("A:A").setNumberFormat("@"); // บังคับ Text Format รหัส นร.
-  studentSheet.getRange("F:F").setNumberFormat("@"); // บังคับ Text Format อีเมล
+  studentSheet.getRange("G:G").setNumberFormat("@"); // บังคับ Text Format อีเมล
 
   // ตัวอย่างข้อมูลนักเรียน ม.6 ตั้งต้น
   const sampleStudents = [
-    ["STD-M6-001", "ณภัทร วรเดชสกุล", "โรงเรียนเตรียมอุดมศึกษา", "ม.6", "1", "naphat.m6@gmail.com", "m6pass123", "Active", new Date()],
-    ["STD-M6-002", "พิมพิชญา ศิริวัฒนา", "โรงเรียนสาธิต มศว ปทุมวัน", "ม.6", "2", "pimpichaya.m6@gmail.com", "m6pass123", "Active", new Date()],
-    ["STD-M6-003", "กิตติธัช ธนบดีเกียรติ", "โรงเรียนสวนกุหลาบวิทยาลัย", "ม.6", "1", "kittithat.m6@gmail.com", "m6pass123", "Active", new Date()]
+    ["STD-M6-001", "ณภัทร วรเดชสกุล", "Naphat Voradechsakul", "โรงเรียนเตรียมอุดมศึกษา", "ม.6", "1", "naphat.m6@gmail.com", "Active", new Date()],
+    ["STD-M6-002", "พิมพิชญา ศิริวัฒนา", "Pimpichaya Siriwattana", "โรงเรียนสาธิต มศว ปทุมวัน", "ม.6", "2", "pimpichaya.m6@gmail.com", "Active", new Date()],
+    ["STD-M6-003", "กิตติธัช ธนบดีเกียรติ", "Kittithat Thanabodeekiat", "โรงเรียนสวนกุหลาบวิทยาลัย", "ม.6", "1", "kittithat.m6@gmail.com", "Active", new Date()],
+    ["STD-M6-004", "อภิญญา วงศ์ปรีชา", "Apinya Wongpreecha", "โรงเรียนบดินทรเดชา (สิงห์ สิงหเสนี)", "ม.6", "3", "apinya.m6@gmail.com", "Active", new Date()],
+    ["STD-M6-005", "วรเมธ รัตนเกียรติ", "Worameth Rattanakiat", "โรงเรียนกรุงเทพคริสเตียนวิทยาลัย", "ม.6", "2", "worameth.m6@gmail.com", "Active", new Date()]
   ];
   sampleStudents.forEach(row => studentSheet.appendRow(row));
 
@@ -69,11 +71,11 @@ function setupAllSheets() {
     nameSheet = ss.insertSheet(SHEET_NAME_BASE);
   }
   nameSheet.clear();
-  nameSheet.appendRow(["Student ID", "ชื่อ-นามสกุล", "โรงเรียน", "ระดับชั้น", "อีเมลอ้างอิง"]);
+  nameSheet.appendRow(["Student ID", "ชื่อ-นามสกุล (ไทย)", "Full Name (English)", "โรงเรียน", "ระดับชั้น", "อีเมลอ้างอิง"]);
   formatHeaderRow(nameSheet, "#3A3A3C", "#FFFFFF");
   nameSheet.getRange("A:A").setNumberFormat("@");
   sampleStudents.forEach(s => {
-    nameSheet.appendRow([s[0], s[1], s[2], s[3], s[5]]);
+    nameSheet.appendRow([s[0], s[1], s[2], s[3], s[4], s[6]]);
   });
 
   // 3. ชีต Login_Logs (ประวัติการเข้าใช้งาน)
@@ -82,22 +84,23 @@ function setupAllSheets() {
     logSheet = ss.insertSheet(SHEET_LOGIN_LOGS);
   }
   logSheet.clear();
-  logSheet.appendRow(["Timestamp", "อีเมล", "ชื่อ-นามสกุล", "โรงเรียน", "สถานะการล็อกอิน", "User Agent / Device"]);
+  logSheet.appendRow(["Timestamp", "อีเมล", "ชื่อ-นามสกุล (ไทย)", "Full Name (English)", "โรงเรียน", "สถานะการล็อกอิน", "User Agent / Device"]);
   formatHeaderRow(logSheet, "#48484A", "#FFFFFF");
 
-  // 4. ชีต Scores_Log (บันทึกคะแนนละเอียด)
+  // 4. ชีต Scores_Log (บันทึกคะแนนละเอียด + ข้อความถึงครู)
   let scoreSheet = ss.getSheetByName(SHEET_SCORES);
   if (!scoreSheet) {
     scoreSheet = ss.insertSheet(SHEET_SCORES);
   }
   scoreSheet.clear();
   const scoreHeaders = [
-    "Timestamp", "Student ID", "อีเมล", "ชื่อ-นามสกุล", "โรงเรียน", "ห้อง",
+    "Timestamp", "Student ID", "อีเมล", "ชื่อ-นามสกุล (ไทย)", "Full Name (English)", "โรงเรียน", "ห้อง",
     "Unit", "คะแนนที่ได้ (Score)", "คะแนนเต็ม (Total)", "ร้อยละ (%)", "สถานะผ่าน", "รายละเอียดคำตอบ (JSON)", "ข้อความถึงคุณครู (Student Note)"
   ];
   scoreSheet.appendRow(scoreHeaders);
   formatHeaderRow(scoreSheet, "#0071E3", "#FFFFFF");
   scoreSheet.getRange("B:B").setNumberFormat("@");
+  scoreSheet.getRange("C:C").setNumberFormat("@");
 
   // 5. ชีต Certificates (ทะเบียนเกียรติบัตร)
   let certSheet = ss.getSheetByName(SHEET_CERTS);
@@ -106,7 +109,7 @@ function setupAllSheets() {
   }
   certSheet.clear();
   const certHeaders = [
-    "Certificate ID", "Student ID", "ชื่อ-นามสกุล", "โรงเรียน", "ระดับชั้น", 
+    "Certificate ID", "Student ID", "ชื่อ-นามสกุล (ไทย)", "Full Name (English)", "โรงเรียน", "ระดับชั้น", 
     "อีเมล", "วันที่อนุมัติ", "สถานะการปลดล็อก", "คะแนนเฉลี่ยสะสม", "Serial Hash"
   ];
   certSheet.appendRow(certHeaders);
@@ -158,10 +161,16 @@ function doGet(e) {
     return createJsonResponse({
       status: "success",
       message: "Get INVOLVED! M.6 Google Apps Script Backend Online",
-      version: "2.0-HighSchool",
+      version: "2.5-HighSchool",
       grade: "M.6",
       timestamp: new Date().toISOString()
     });
+  }
+
+  // ยืนยันตัวตนด้วย Email จากชีต Students_DB
+  if (action === "verifyEmail") {
+    const email = (e.parameter.email || "").trim().toLowerCase();
+    return verifyStudentByEmail(email);
   }
 
   if (action === "getRoster") {
@@ -198,6 +207,10 @@ function doPost(e) {
       return recordStudentScore(data);
     }
 
+    if (action === "registerStudent") {
+      return registerOrUpdateStudent(data);
+    }
+
     if (action === "loginLog") {
       return logStudentLogin(data);
     }
@@ -209,6 +222,110 @@ function doPost(e) {
   } finally {
     lock.releaseLock();
   }
+}
+
+/**
+ * ตรวจสอบนักเรียนด้วย Email จากฐานข้อมูล Google Sheet
+ */
+function verifyStudentByEmail(email) {
+  if (!email) return createJsonResponse({ status: "error", message: "Email is required" });
+
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const sheet = ss.getSheetByName(SHEET_STUDENTS);
+  if (!sheet) return createJsonResponse({ status: "error", message: "Students sheet not found" });
+
+  const rows = sheet.getDataRange().getValues();
+  if (rows.length <= 1) {
+    return createJsonResponse({ status: "success", found: false, message: "No registered students in sheet" });
+  }
+
+  // ค้นหาตำแหน่งคอลัมน์จากหัวตาราง
+  const headers = rows[0].map(h => String(h).trim().toLowerCase());
+  let emailCol = headers.findIndex(h => h.includes("email") || h.includes("อีเมล"));
+  if (emailCol === -1) emailCol = 6;
+
+  let thaiNameCol = headers.findIndex(h => h.includes("ไทย") || h.includes("ชื่อ-นามสกุล"));
+  if (thaiNameCol === -1) thaiNameCol = 1;
+
+  let engNameCol = headers.findIndex(h => h.includes("english") || h.includes("อังกฤษ"));
+  if (engNameCol === -1) engNameCol = 2;
+
+  let idCol = 0;
+  let schoolCol = headers.findIndex(h => h.includes("โรงเรียน") || h.includes("school"));
+  if (schoolCol === -1) schoolCol = 3;
+
+  let roomCol = headers.findIndex(h => h.includes("ห้อง") || h.includes("room"));
+  if (roomCol === -1) roomCol = 5;
+
+  for (let i = 1; i < rows.length; i++) {
+    const rowEmail = String(rows[i][emailCol] || "").trim().toLowerCase();
+    if (rowEmail === email) {
+      return createJsonResponse({
+        status: "success",
+        found: true,
+        student: {
+          id: String(rows[i][idCol] || ""),
+          nameThai: String(rows[i][thaiNameCol] || ""),
+          nameEnglish: String(rows[i][engNameCol] || ""),
+          school: String(rows[i][schoolCol] || ""),
+          room: String(rows[i][roomCol] || ""),
+          email: rowEmail
+        }
+      });
+    }
+  }
+
+  return createJsonResponse({ status: "success", found: false, message: "Email not found in registered roster" });
+}
+
+/**
+ * ลงทะเบียนหรืออัปเดตข้อมูลนักเรียนลงใน Students_DB
+ */
+function registerOrUpdateStudent(data) {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  let sheet = ss.getSheetByName(SHEET_STUDENTS);
+  if (!sheet) {
+    setupAllSheets();
+    sheet = ss.getSheetByName(SHEET_STUDENTS);
+  }
+
+  const email = String(data.email || "").trim().toLowerCase();
+  if (!email) return createJsonResponse({ status: "error", message: "Email is required" });
+
+  const studentId = String(data.studentId || data.id || `STD-M6-${Math.floor(100 + Math.random() * 900)}`).trim();
+  const nameThai = String(data.nameThai || data.name || "").trim();
+  const nameEnglish = String(data.nameEnglish || "").trim();
+  const school = String(data.school || "-").trim();
+  const grade = String(data.grade || "ม.6").trim();
+  const room = String(data.room || "-").trim();
+  const status = "Active";
+  const regDate = new Date();
+
+  const rows = sheet.getDataRange().getValues();
+  let existingRow = -1;
+  for (let i = 1; i < rows.length; i++) {
+    const rowEmail = String(rows[i][6] || rows[i][5] || "").trim().toLowerCase();
+    if (rowEmail === email) {
+      existingRow = i + 1;
+      break;
+    }
+  }
+
+  if (existingRow > 0) {
+    sheet.getRange(existingRow, 1, 1, 9).setValues([[
+      studentId, nameThai, nameEnglish, school, grade, room, email, status, regDate
+    ]]);
+  } else {
+    sheet.appendRow([
+      studentId, nameThai, nameEnglish, school, grade, room, email, status, regDate
+    ]);
+  }
+
+  return createJsonResponse({
+    status: "success",
+    message: "Student registered successfully",
+    student: { id: studentId, nameThai, nameEnglish, school, grade, room, email }
+  });
 }
 
 /**
@@ -225,7 +342,8 @@ function recordStudentScore(data) {
   const timestamp = new Date();
   const studentId = String(data.studentId || "GUEST").trim();
   const email = String(data.email || "").trim().toLowerCase();
-  const name = String(data.name || "นักเรียน ม.6").trim();
+  const nameThai = String(data.nameThai || data.name || "นักเรียน ม.6").trim();
+  const nameEnglish = String(data.nameEnglish || "").trim();
   const school = String(data.school || "-").trim();
   const room = String(data.room || "-").trim();
   const unit = String(data.unit || "unit5").trim();
@@ -237,7 +355,7 @@ function recordStudentScore(data) {
   const studentNote = String(data.studentNote || data.note || data.message || "").trim();
 
   scoreSheet.appendRow([
-    timestamp, studentId, email, name, school, room, unit, score, total, pct, isPassed, rawAnswers, studentNote
+    timestamp, studentId, email, nameThai, nameEnglish, school, room, unit, score, total, pct, isPassed, rawAnswers, studentNote
   ]);
 
   return createJsonResponse({
@@ -264,7 +382,8 @@ function logStudentLogin(data) {
   logSheet.appendRow([
     new Date(),
     data.email || "-",
-    data.name || "-",
+    data.nameThai || data.name || "-",
+    data.nameEnglish || "-",
     data.school || "-",
     data.status || "Success",
     data.device || "Browser"
@@ -287,10 +406,12 @@ function getRosterData() {
     students.push({
       id: rows[i][0],
       name: rows[i][1],
-      school: rows[i][2],
-      grade: rows[i][3],
-      room: rows[i][4],
-      email: rows[i][5],
+      nameThai: rows[i][1],
+      nameEnglish: rows[i][2],
+      school: rows[i][3],
+      grade: rows[i][4],
+      room: rows[i][5],
+      email: rows[i][6],
       status: rows[i][7]
     });
   }
@@ -319,12 +440,12 @@ function lookupStudentProgress(email) {
   for (let i = 1; i < rows.length; i++) {
     const rowEmail = String(rows[i][2]).trim().toLowerCase();
     if (rowEmail === email) {
-      const u = rows[i][6];
+      const u = rows[i][7]; // unit col
       if (units[u]) {
         units[u].done = true;
-        units[u].score = rows[i][7];
-        units[u].total = rows[i][8];
-        units[u].pct = rows[i][9];
+        units[u].score = rows[i][8];
+        units[u].total = rows[i][9];
+        units[u].pct = rows[i][10];
       }
     }
   }
