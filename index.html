@@ -305,10 +305,14 @@
           </button>
         </div>
 
-        <div class="w-full sm:w-auto">
-          <button id="btn-check-part" onclick="submitCurrentPart()" class="tactile-btn w-full sm:w-auto px-6 py-2.5 rounded-xl bg-apple-accent hover:bg-apple-accentHover text-white text-xs sm:text-sm font-bold shadow-apple-btn-primary flex items-center justify-center space-x-2">
-            <i class="ph-bold ph-check-circle text-base"></i>
-            <span>ตรวจคำตอบ & ดูเฉลยละเอียดของส่วนนี้</span>
+        <div class="w-full sm:w-auto flex flex-wrap items-center gap-2.5 justify-end">
+          <button id="btn-check-part" onclick="submitCurrentPart()" class="tactile-btn flex-1 sm:flex-none px-4 py-2.5 rounded-xl bg-gray-100 hover:bg-gray-200 text-apple-textPrimary text-xs sm:text-sm font-semibold flex items-center justify-center space-x-1.5 transition">
+            <i class="ph-bold ph-check-circle text-base text-apple-accent"></i>
+            <span>ตรวจคำตอบส่วนนี้</span>
+          </button>
+          <button id="btn-check-and-summarize" onclick="triggerCheckAndSummarizeUnit()" class="tactile-btn flex-1 sm:flex-none px-5 py-2.5 rounded-xl bg-apple-accent hover:bg-apple-accentHover text-white text-xs sm:text-sm font-bold shadow-apple-btn-primary flex items-center justify-center space-x-2 transition">
+            <i class="ph-bold ph-chart-bar text-base"></i>
+            <span>ตรวจสอบคะแนนและสรุป</span>
           </button>
         </div>
       </div>
@@ -669,6 +673,22 @@
         <div class="space-y-2" id="summary-parts-breakdown">
           <!-- Injected dynamically -->
         </div>
+      </div>
+
+      <!-- Teacher Note Box (ขอคำแนะนำเพิ่มเติมจากคุณครู) -->
+      <div class="p-4 rounded-2xl bg-amber-50/80 border border-amber-200/80 space-y-2.5">
+        <div class="flex items-center justify-between">
+          <label for="summary-student-note" class="text-xs font-bold text-amber-900 flex items-center gap-1.5">
+            <i class="ph-bold ph-chat-teardrop-text text-base text-amber-600"></i>
+            <span>ข้อความหรือคำถามถึงคุณครู (ขอคำแนะนำเพิ่มเติม):</span>
+          </label>
+          <span class="text-[10px] font-semibold text-amber-700 bg-amber-100/80 px-2 py-0.5 rounded-full">ส่งเข้า Google Sheet</span>
+        </div>
+        <textarea id="summary-student-note" rows="3" placeholder="พิมพ์ข้อความ คำถาม หรือสิ่งที่ต้องการให้คุณครูอธิบายเพิ่มเติม (เช่น อยากให้ครูช่วยอธิบายเรื่อง Reported Speech หรือข้อยากใน Part 3 เพิ่มเติม)..." class="w-full p-3 rounded-xl border border-amber-300 text-xs text-apple-textPrimary focus:ring-2 focus:ring-amber-500 outline-none bg-white leading-relaxed"></textarea>
+        <button id="btn-send-student-note" onclick="sendStudentNoteToTeacher()" class="tactile-btn w-full py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold shadow-sm flex items-center justify-center space-x-2 transition">
+          <i class="ph-bold ph-paper-plane-tilt text-sm"></i>
+          <span>ส่งข้อความ & บันทึกคำขอคำแนะนำถึงคุณครู</span>
+        </button>
       </div>
 
       <!-- Google Sheets Cloud Sync Status Box -->

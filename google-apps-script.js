@@ -93,7 +93,7 @@ function setupAllSheets() {
   scoreSheet.clear();
   const scoreHeaders = [
     "Timestamp", "Student ID", "อีเมล", "ชื่อ-นามสกุล", "โรงเรียน", "ห้อง",
-    "Unit", "คะแนนที่ได้ (Score)", "คะแนนเต็ม (Total)", "ร้อยละ (%)", "สถานะผ่าน", "รายละเอียดคำตอบ (JSON)"
+    "Unit", "คะแนนที่ได้ (Score)", "คะแนนเต็ม (Total)", "ร้อยละ (%)", "สถานะผ่าน", "รายละเอียดคำตอบ (JSON)", "ข้อความถึงคุณครู (Student Note)"
   ];
   scoreSheet.appendRow(scoreHeaders);
   formatHeaderRow(scoreSheet, "#0071E3", "#FFFFFF");
@@ -234,9 +234,10 @@ function recordStudentScore(data) {
   const pct = total > 0 ? Math.round((score / total) * 100) : 0;
   const isPassed = pct >= 60 ? "ผ่าน" : "ต้องพัฒนา";
   const rawAnswers = data.rawAnswers ? JSON.stringify(data.rawAnswers) : "";
+  const studentNote = String(data.studentNote || data.note || data.message || "").trim();
 
   scoreSheet.appendRow([
-    timestamp, studentId, email, name, school, room, unit, score, total, pct, isPassed, rawAnswers
+    timestamp, studentId, email, name, school, room, unit, score, total, pct, isPassed, rawAnswers, studentNote
   ]);
 
   return createJsonResponse({
