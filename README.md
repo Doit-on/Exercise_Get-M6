@@ -82,7 +82,7 @@
 ## 🌐 การใช้งานบน GitHub Pages
 
 ระบบถูกเตรียมพร้อมสำหรับโฮสต์ผ่าน GitHub Pages ทันที:
-1. Push โค้ดทั้งหมดขึ้นที่: `https://github.com/Doit-on/Exercise_Get-M6-.git`
+1. Push โค้ดทั้งหมดขึ้นที่: `https://github.com/Doit-on/Exercise_Get-M6.git`
 2. ไปที่แท็บ **Settings** ของ GitHub Repository
 3. เมนูทางซ้ายเลือก **Pages**
 4. ในส่วน **Build and deployment** ให้เลือก Source เป็น **Deploy from a branch** แล้วเลือก Branch เป็น `main` โฟลเดอร์ `/ (root)` แล้วกด **Save**
